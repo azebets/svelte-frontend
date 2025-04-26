@@ -40,7 +40,7 @@
     {#if !$user?.referral_code}
         <button class="css-1ylvjsg button" type="submit" style="width: 140px; margin-top: 40px;">{isloading ? "Loading..." : "Apply"}</button>   
     {/if}
-</div>
+    </div>
 </form>
 
 <style>

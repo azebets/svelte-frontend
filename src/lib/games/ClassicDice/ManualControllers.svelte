@@ -131,7 +131,8 @@ const dive = (sign) => {
 
   const handlesjen = (e) => {
     bet_amount = (parseFloat($default_Wallet?.balance) * (e / 100)).toFixed(7);
-  };
+  }
+  
 </script>
 
 <div class="game-control-panel">

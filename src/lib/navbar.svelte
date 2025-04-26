@@ -204,7 +204,7 @@
                     Chat
                 </a>
             </div>
-    </div>
+        </div>
         {/if}
     </div>
 {/if}

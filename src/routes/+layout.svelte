@@ -9,7 +9,7 @@
    import { onMount } from "svelte";
    import { url, seaser } from "$lib/store/routes";
    import { device } from "$lib/store/profile";
-   import Loader from "$lib/loader.svelte";
+   // import Loader from "$lib/loader.svelte";
    import RightSideBar from "$lib/right-sideBar.svelte";
    import LeftSidebar from "$lib/left-sidebar.svelte";
    import Footer from "$lib/footer.svelte";
@@ -24,6 +24,7 @@
    import SearchGames from "$lib/searchGames/SearchGames.svelte";
    import User from "$lib/user/layout.svelte"
    import LiveStats from "$lib/games/crash/dialogs/LiveStats.svelte";
+   import Preloader from "$lib/components/Preloader.svelte";
    export let data 
 
    $: isPassword = data?.password ? false : true
@@ -124,9 +125,19 @@
 
    $: newScreen.set($screen - sideHasExpand)
 
+   let isLoading = true;
+
+   onMount(() => {
+      // Simulate loading delay or wait for actual data to load
+      setTimeout(() => {
+         isLoading = false;
+      }, 1000); // Adjust the timeout as needed
+   });
 </script>
 
-
+{#if isLoading}
+   <Preloader /> 
+{:else}
    <div id="root" >
       <Navbar sideHasExpand={sideHasExpand} chat={chat} menu={menu} on:return={()=> sideHasExpand = 248} on:chat={handleChatSection} on:menu={handleMenuSection}/>
          {#if $screen < 750}
@@ -151,11 +162,7 @@
          <LeftSidebar sideHasExpand={sideHasExpand} on:close={()=> sideHasExpand = 8}  on:ellapse={()=> sideHasExpand = 248} on:expand={()=> sideHasExpand = 340}/>  
       {/if}
    </div>
-   <!-- {:else}
-   <div style="height: 70vh;">
-      <Loader />
-   </div>
-{/if} -->
+{/if}
 
 {#if $message.length}
 <div class="message-container">
