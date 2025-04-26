@@ -5,7 +5,9 @@ import { url } from "$lib/store/routes";
 <div class="css-zhn3eh">
     <!-- <div class="css-co0306"></div> -->
     <div class="css-dffgpk">
+      
         <div class="css-b597fs">
+            <img src="assets/banners/welcome_banner.png" alt="">
             <!-- <h1 class="css-rhqiop" style="margin: 0px; font-size: 28px;">Start Winning</h1> -->
             <!-- <div class="css-1bmbfr1">Experience true innovation with the highest rewards program within the industry.</div> -->
             <!-- <button class="css-3gygi5">Register Now</button> -->
