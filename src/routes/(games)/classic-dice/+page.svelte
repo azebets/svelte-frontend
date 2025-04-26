@@ -1,6 +1,5 @@
 <script>
     import { onMount } from "svelte";
-    import { beforeNavigate } from "$app/navigation";
     import { browser } from "$app/environment";
     import { newScreen } from "$lib/store/screen";
     import { handleAuthToken } from "$lib/store/routes";
@@ -9,104 +8,91 @@
     import Loader from "$lib/controller/loader.svelte";
     import { handleDiceGameEncrypt, DiceHistory } from "$lib/gameAPIs/dice";
 
-    // Preload components
-    const componentPromises = {
-        Gameview: () => import("$lib/games/ClassicDice/gameview.svelte"),
-        Controls: () => import("$lib/games/ClassicDice/Controls.svelte"),
-        Allbet: () => import("$lib/games/ClassicDice/componets/allbet.svelte"),
-        Mybet: () => import("$lib/games/ClassicDice/componets/mybet.svelte"),
-        SeedSetting: () => import("$lib/games/ClassicDice/componets/share/seedsettings.svelte"),
-        Help: () => import("$lib/games/ClassicDice/componets/help.svelte"),
-        Description: () => import("$lib/games/ClassicDice/componets/description.svelte")
+    // State variables
+    let tab = 1;
+    let isSeed = false;
+    let isHelp = false;
+    let showDesc = false;
+    let loadedComponents = {};
+    let loading = true;
+
+    // Component lazy loading
+    const components = {
+        gameview: () => import("$lib/games/ClassicDice/gameview.svelte"),
+        controls: () => import("$lib/games/ClassicDice/Controls.svelte"),
+        allbet: () => import("$lib/games/ClassicDice/componets/allbet.svelte"),
+        mybet: () => import("$lib/games/ClassicDice/componets/mybet.svelte"),
+        seedSettings: () => import("$lib/games/ClassicDice/componets/share/seedsettings.svelte"),
+        help: () => import("$lib/games/ClassicDice/componets/help.svelte"),
+        description: () => import("$lib/games/ClassicDice/componets/description.svelte")
     };
 
-    // Start preloading as soon as possible
-    if (browser) {
-        Object.values(componentPromises).forEach(loader => loader());
-    }
-
-    // Lazy-loaded components
-    let Gameview, Controls, Allbet, Mybet, SeedSetting, Help, Description;
-
-    $: is_hotkey = false;
-    $: is_stats = false;
-    $: isSeed = false;
-    $: isHelp = false;
-    $: loading = true; // Tracks overall page loading
-    $: modulesLoading = true; // Tracks module loading
-    $: tab = 1;
-    $: showDesc = false;
-
-    // Load components with better error handling
-    async function loadComponents() {
-        try {
-            modulesLoading = true;
-            const results = await Promise.all([
-                componentPromises.Gameview(),
-                componentPromises.Controls(),
-                componentPromises.Allbet(),
-                componentPromises.Mybet(),
-                componentPromises.SeedSetting(),
-                componentPromises.Help(),
-                componentPromises.Description()
-            ]);
-
-            [Gameview, Controls, Allbet, Mybet, SeedSetting, Help, Description] = 
-                results.map(m => m.default);
-        } catch (error) {
-            console.error('Failed to load components:', error);
-        } finally {
-            modulesLoading = false;
-        }
-    }
-
-    onMount(async () => {
-        const loadPromises = [
-            loadComponents(),
-            handleDiceGameEncrypt($handleAuthToken),
-            DiceHistory($handleAuthToken)
-        ];
-
-        // Load everything in parallel
-        const [_, resion] = await Promise.all(loadPromises);
-
-        const id = browser && JSON.parse(localStorage.getItem("classic_dice_sound"));
-        const tubor = browser && JSON.parse(localStorage.getItem("classic_dice_tubo"));
-
-        soundHandler.set(id);
-        turboManager.set(tubor);
-        soundManager.set(handleSoundManager());
-
-        loading = resion;
-    });
-
-    const handleAllbet = (e) => {
-        tab = e;
-    };
-
+    // Event handlers
     const handleSoundState = () => {
-        if ($soundHandler) {
-            soundHandler.set(null);
-            localStorage.removeItem("classic_dice_sound");
-        } else {
-            soundHandler.set(true);
-            localStorage.setItem("classic_dice_sound", true);
+        const newState = !$soundHandler;
+        soundHandler.set(newState);
+        if (browser) {
+            localStorage.setItem("classic_dice_sound", JSON.stringify(newState));
         }
     };
 
     const handleTurboState = () => {
-        if ($turboManager) {
-            turboManager.set(null);
-            localStorage.removeItem("classic_dice_tubo");
-        } else {
-            turboManager.set(true);
-            localStorage.setItem("classic_dice_tubo", true);
+        const newState = !$turboManager;
+        turboManager.set(newState);
+        if (browser) {
+            localStorage.setItem("classic_dice_tubo", JSON.stringify(newState));
         }
     };
+
+    const handleAllbet = (newTab) => {
+        tab = newTab;
+    };
+
+    // Initialize sound settings
+    if (browser) {
+        const savedSound = localStorage.getItem("classic_dice_sound");
+        const savedTurbo = localStorage.getItem("classic_dice_tubo");
+        soundHandler.set(savedSound ? JSON.parse(savedSound) : null);
+        turboManager.set(savedTurbo ? JSON.parse(savedTurbo) : null);
+        soundManager.set(handleSoundManager());
+    }
+
+    async function loadInitialComponents() {
+        try {
+            // Load critical components first
+            const [gameviewModule, controlsModule] = await Promise.all([
+                components.gameview(),
+                components.controls()
+            ]);
+            
+            loadedComponents.gameview = gameviewModule.default;
+            loadedComponents.controls = controlsModule.default;
+            loading = false;
+
+            // Load remaining components in background
+            Object.entries(components)
+                .filter(([key]) => !['gameview', 'controls'].includes(key))
+                .forEach(async ([key, loader]) => {
+                    const module = await loader();
+                    loadedComponents[key] = module.default;
+                });
+        } catch (error) {
+            console.error('Failed to load components:', error);
+            loading = false;
+        }
+    }
+
+    onMount(async () => {
+        await Promise.all([
+            loadInitialComponents(),
+            handleDiceGameEncrypt($handleAuthToken),
+            DiceHistory($handleAuthToken)
+        ]);
+    });
 </script>
 
 <div id="dice-main">
-    {#if loading || modulesLoading}
+    {#if loading}
         <!-- Show a loader while the page or modules are loading -->
         <div style="height: 70vh;">
             <Loader />
@@ -115,11 +101,11 @@
         <div id="game-ClassicDice" class={`sc-haTkiu lmWKWf ${$newScreen > 1200 ? "game-style0" : "game-style1"} sc-gDGHff gYWFhf`}>
             <div class="game-area">
                 <div class="game-main">
-                    {#if Gameview}
-                        <svelte:component this={Gameview} />
+                    {#if loadedComponents.gameview}
+                        <svelte:component this={loadedComponents.gameview} />
                     {/if}
-                    {#if Controls}
-                        <svelte:component this={Controls} />
+                    {#if loadedComponents.controls}
+                        <svelte:component this={loadedComponents.controls} />
                     {/if}
                     <div class="game-actions">
                         <button on:click={handleSoundState} class={`action-item ${$soundHandler ? "active" : ""}`}>
@@ -147,10 +133,10 @@
                         <div class="bg" style="left: 50%; right: 0%;"></div>
                     {/if}
                 </div>
-                {#if tab === 1 && Allbet}
-                    <svelte:component this={Allbet} />
-                {:else if tab === 2 && Mybet}
-                    <svelte:component this={Mybet} />
+                {#if tab === 1 && loadedComponents.allbet}
+                    <svelte:component this={loadedComponents.allbet} />
+                {:else if tab === 2 && loadedComponents.mybet}
+                    <svelte:component this={loadedComponents.mybet} />
                 {/if}
             </div>
             <div class="sc-knKHOI cFxmZX">
@@ -165,21 +151,21 @@
                 </button>
             </div>
         </div>
-        {#if showDesc && Description}
-            <svelte:component this={Description} on:close={() => (showDesc = false)} />
+        {#if showDesc && loadedComponents.description}
+            <svelte:component this={loadedComponents.description} on:close={() => (showDesc = false)} />
         {/if}
-        {#if isSeed && SeedSetting}
+        {#if isSeed && loadedComponents.seedSettings}
             <div class="sc-bkkeKt kBjSXI">
                 <div class="dialog">
                     <button on:click={() => (isSeed = false)} class="sc-ieecCq fLASqZ close-icon dialog-close">
                         <!-- Close Icon -->
                     </button>
-                    <svelte:component this={SeedSetting} settin={null} />
+                    <svelte:component this={loadedComponents.seedSettings} settin={null} />
                 </div>
             </div>
         {/if}
-        {#if isHelp && Help}
-            <svelte:component this={Help} on:close={() => (isHelp = false)} />
+        {#if isHelp && loadedComponents.help}
+            <svelte:component this={loadedComponents.help} on:close={() => (isHelp = false)} />
         {/if}
     {/if}
 </div>

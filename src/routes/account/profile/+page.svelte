@@ -1,118 +1,136 @@
 <script>
-   import Verification from "$lib/auth/verify/page/index.svelte"
-   import "../../../styles/verification.css";
    import { user } from "$lib/store/profile";
    import { goto } from "$app/navigation";
-   import { onMount } from "svelte";
-   import { handleChangeProflePicture } from "$lib/index";
    import { loading } from "$lib/store/activities";
    import { url } from "$lib/store/routes";
-   import { handleChangeUsername, handleChangeProfilePrivacy, handleGoogleLink } from "$lib/auth/hook"
-   const badge = new URL('../../../lib/images/badges/bronze1.png', import.meta.url).href
    import { handleAuthToken } from "$lib/store/routes";
+   import { onMount } from "svelte";
+   import "../../../styles/verification.css";
+   import "../../../styles/profile.css"
    import Loader from "$lib/loader.svelte";
-   import { navigating } from '$app/stores';
+   import { assets } from "$lib/assets";
 
-let Images = [
-    { img: "assets/avatar/avatar1.png", active: false},
-    { img: "assets/avatar/avatar2.png", active: false},
-    { img: "assets/avatar/avatar3.png", active: false},
-    { img: "assets/avatar/avatar4.png", active: true},
-    { img: "assets/avatar/avatar5.png", active: false},
-    { img: "assets/avatar/avatar6.png", active: false},
-    { img: "assets/avatar/avatar7.png", active: false},
-    { img: "assets/avatar/avatar8.png", active: false},
-]
+   // Lazy load non-critical components
+   const Verification = import("$lib/auth/verify/page/index.svelte").then(m => m.default);
    
-   $: showPrivateContent = false
-   $: isEdit = false
-   let username = ""
-   $: profileHidden = $user?.profileIsHidden || false
-   $: track = !username || $user.username === username || $loading
-   $: profile_picture = $user?.profileImg
-   
-   const handleChangeUsernameHook = (async()=>{
-      const response = handleChangeUsername(username, $handleAuthToken)
-      if(response){
-          username = ""
-      }
-   })
+   // Initialize reactive variables efficiently
+   $: showPrivateContent = false;
+   $: isEdit = false;
+   $: username = "";
+   $: profileHidden = $user?.profileIsHidden ?? false;
+   $: track = !username || $user?.username === username || $loading;
+   $: profile_picture = $user?.profileImg;
 
-   const handlePrivacy = (async()=>{
-      profileHidden =! profileHidden
-       await handleChangeProfilePrivacy(profileHidden, $handleAuthToken)
-   })
-   
-   const handleLinkEmail = (async()=>{
-      await handleGoogleLink($handleAuthToken)
-   })
+   // Add image variable declaration
+   let image;
+   let loadImage = false;
+   let badge = assets.badge[$user?.badge] || assets.badge.bronze1;
 
-   onMount(()=>{
+   // Define Images array
+   let Images = [
+    { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720390192/avatar55_rtiys4.png", active: false},
+    { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720390141/avatar44_ncyqcw.png", active: false},
+    { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720398516/avatar1_l6garj.png", active: false},
+    { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720398515/avatar2_ztgal3.png", active: true},
+    { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720390128/avatar11_fbdw02.png", active: false},
+    { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720390124/avatar33_gnrkq8.png", active: false},
+    { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720389924/avatar66_daptmu.png", active: false},
+    { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720389880/avatar88_enyz9d.png", active: false},
+   ];
+
+   // Add handleUpdateImage function
+   const handleUpdateImage = async (img) => {
       Images.forEach(element => {
-      if(element.img === $user?.profileImg){
-         element.active = true
-         Images = Images
-      }else{
-         element.active = false
-      }
-   });
-})
-
-
-const handleUpdateImage = (async(event)=>{
-   Images.forEach(element => {
-      if(element.img === event.img){
-         profile_picture = element.img
-         element.active = true
-         Images = Images
-      }else{
-         element.active = false
-      }
-   });
-})
-   
-let loadImage = false
-const handleSaved = (async()=>{
-   loadImage = true
-   if($user?.profileImg !== profile_picture){
-      const {response, error} = await handleChangeProflePicture(profile_picture, $handleAuthToken)
-      if(response){
-         user.set(response)
-         isEdit = false
-         loadImage = false
-      }else if(error){
-         loadImage = false
-      }
-   }else{
-      isEdit = false
-      loadImage = false
-   }
-   loadImage = false
-})
-
-let image;
-let imageUrl = '';
-const previewImage = (event) => {
-   const file = event.target.files[0];
-   if (file) {
-   const reader = new FileReader();
-   reader.onload = (e) => {
-      imageUrl = e.target.result;
-      profile_picture = imageUrl
+         if(element.img === img.img){
+            profile_picture = element.img;
+            element.active = true;
+         } else {
+            element.active = false;
+         }
+      });
+      Images = Images; // trigger reactivity
    };
-   reader.readAsDataURL(file);
-   }
-};
 
+   // Add previewImage handler
+   const previewImage = (event) => {
+     const file = event.target.files[0];
+     if (file) {
+       const reader = new FileReader();
+       reader.onload = (e) => {
+         profile_picture = e.target.result;
+       };
+       reader.readAsDataURL(file);
+     }
+   };
+
+   // Add handleSaved function with corrected URL handling
+   const handleSaved = async () => {
+      if (!handleChangeProflePicture) await initializeHandlers();
+      loadImage = true;
+      try {
+         const {response} = await handleChangeProflePicture(profile_picture, $handleAuthToken);
+         if(response){
+            user.set(response);
+            // Fix URL construction
+            const currentUrl = $url === "/" ? "" : $url;
+            goto(currentUrl);
+         }
+      } catch (error) {
+         console.error('Error saving profile picture:', error);
+      } finally {
+         loadImage = false;
+      }
+   };
+
+   // Lazy load handlers
+   let handleChangeUsername, handleChangeProfilePrivacy, handleGoogleLink, handleChangeProflePicture;
+   
+   // Initialize handlers only when needed
+   const initializeHandlers = async () => {
+     const handlers = await import("$lib/auth/hook");
+     const utils = await import("$lib/index");
+     
+     handleChangeUsername = handlers.handleChangeUsername;
+     handleChangeProfilePrivacy = handlers.handleChangeProfilePrivacy;
+     handleGoogleLink = handlers.handleGoogleLink;
+     handleChangeProflePicture = utils.handleChangeProflePicture;
+   };
+
+   // Initialize only when component mounts
+   onMount(() => {
+     initializeHandlers();
+     
+     if (Images?.length) {
+       Images.forEach(element => {
+         element.active = element.img === $user?.profileImg;
+       });
+     }
+   });
+
+   // Optimize event handlers
+   const handleChangeUsernameHook = async () => {
+     if (!handleChangeUsername) await initializeHandlers();
+     const response = await handleChangeUsername(username, $handleAuthToken);
+     if (response) username = "";
+   };
+
+   const handlePrivacy = async () => {
+     if (!handleChangeProfilePrivacy) await initializeHandlers();
+     profileHidden = !profileHidden;
+     await handleChangeProfilePrivacy(profileHidden, $handleAuthToken);
+   };
+
+   const handleLinkEmail = async () => {
+     if (!handleGoogleLink) await initializeHandlers();
+     await handleGoogleLink($handleAuthToken);
+   };
 </script>
-{#if $navigating}
-  <Loader />
-{:else}
-  <div class="css-59u6fd">
+
+  <div class="profile-container">
    <div class="Onkensldmd">
       <div size="70" class="css-1d8gn0m">
          <!-- {#if !isEdit} -->
-            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=user&modal=profile&id=${$user?.user_id}`)} class="iWksniw">View</button>
+            <button on:click={() => goto(`/account/profile?tab=user&modal=profile&id=${$user?.user_id}`)} class="iWksniw">View</button>
          <!-- {/if} -->
          {#if isEdit}
             <button on:click={handleSaved} class=" button iWksniw css-vmbe4r">
@@ -156,10 +174,11 @@ const previewImage = (event) => {
             <div class="css-or2cg1">
                <span class="css-n08hzl">Next:</span>
                <div size="24" class="css-qvw6u0">
-                  <img src="{badge}" alt="Bronze 1" scale="0.72" class="css-10qm6dq"></div>
-                  <div color="#E5A480" class="css-63t63w">{$user?.next_level}</div>
-                  <span class="css-n08hzl">$10,000</span>
+                  <img src="{badge}" alt="Badge" scale="0.72" class="css-10qm6dq">
                </div>
+               <div color="#E5A480" class="css-63t63w">{$user?.next_level}</div>
+               <span class="css-n08hzl">$10,000</span>
+            </div>
          </div>
       </div>
    </div>
@@ -308,73 +327,8 @@ const previewImage = (event) => {
    </div>
 </div>
 
-<Verification />
-{/if}
+{#await Verification then VerificationComponent}
+  <svelte:component this={VerificationComponent}/>
+{/await}
 
 
-
-
-<style>
-.iWksniw{
-   position: absolute;
-   right: 15px;
-   top: 15px;
-   font-size: 12px;
-   padding: 4px 14px;
-   background: rgba(203, 215, 255, 0.03);
-   border-radius: 2px;
-}
-.iWksniw1{
-   position: absolute;
-   right: 15px;
-   top: 15px;
-   font-size: 12px;
-   padding: 4px 14px;
-   border-radius: 2px;
-}
-.Jonmsene{
-   margin-top: 20px;
-   display: flex;
-   border-top: 1px solid rgba(128, 128, 128, 0.347);
-}
-.css-OMksnee{
-   cursor: pointer;
-   width: 55px;
-   padding: 1px;
-   margin-top: 10px;
-}
-.css-OMksnee.active{
-   border: 5px solid rgb(81, 227, 13);
-}
-.LsnnejkJ{
-   position: absolute;
-   background: none;
-   opacity: 0;
-}
-.upload {
-    width: 3.75rem;
-    height: 3.75rem;
-    position: absolute;
-    z-index: 11;
-}
-.flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.upload .icon {
-   opacity: 0.4;
-    width: 2.125rem;
-    height: 2.125rem;
-    fill: rgb(255, 255, 255);
-}
-
-.upload input {
-    opacity: 0;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-}
-</style>

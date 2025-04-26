@@ -5,17 +5,26 @@ import { changeotp } from "$lib/store/routes";
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ route, data }) {
-  // Preload the classic-dice route
   if (browser) {
-    const preloadRoute = () => {
-      const link = document.createElement('link');
-      link.rel = 'modulepreload';
-      link.href = '/';
-      document.head.appendChild(link);
+    // Preload classic-dice assets immediately
+    const preloadAssets = () => {
+      // Preload main components
+      const links = [
+        '/src/lib/games/ClassicDice/gameview.svelte',
+        '/src/lib/games/ClassicDice/Controls.svelte',
+        '/src/lib/games/ClassicDice/audio/SoundManager.js',
+      ].map(href => {
+        const link = document.createElement('link');
+        link.rel = 'modulepreload';
+        link.href = href;
+        return link;
+      });
+
+      document.head.append(...links);
     };
-    
-    // Delay preload slightly to prioritize current route
-    setTimeout(preloadRoute, 1000);
+
+    // Execute immediately
+    preloadAssets();
   }
 
   let password = browser && JSON.parse(sessionStorage.getItem('password'));
