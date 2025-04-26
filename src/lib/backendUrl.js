@@ -5,7 +5,7 @@ export const serverUrl = () => {
     if (location.hostname === "localhost" || location.hostname === "127.0.0.1"){
       return "http://localhost:8001";
     }else{
-      return "https://cyclix.onrender.com";
+      return "https://azebets.onrender.com";
     }
   }
 }
@@ -15,7 +15,7 @@ export const clientUrl = () => {
     if (location.hostname === "localhost" || location.hostname === "127.0.0.1"){
       return "http://localhost:5173";
     }else{
-      return "https://playtrickygames.netlify.app";
+      return "https://azebets.onrender.com";
     }
   }
 }
