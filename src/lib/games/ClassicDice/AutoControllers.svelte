@@ -13,12 +13,12 @@ import { dice_history, handlediceAutoInput,Handles_alive,handleOnLose,
 handleStopOnwin, handleOnwin, rollunder } from "../ClassicDice/store/index";
 
 import { onMount } from "svelte";
-$: default_coins = "https://res.cloudinary.com/dxwhz3r81/image/upload/v1721026026/USD_Coin_-_Green_ai65gw.png"
+$: default_coins = "assets/BTC.webp"
 $: bet_amount = 0;
 $: demo_wallet = "Fun Coupons";
 $: demo_minebet = 100
 $: demo_maxWallet = 10000
-$: USD_min = 0.2
+$: USD_min = 0.01
 $: USD_max = 2000
 $: aval_bal = parseFloat($default_Wallet?.balance) || 100
 

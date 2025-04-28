@@ -51,7 +51,6 @@ export default class CrashGameGraph extends EventEmitter {
     this.devicePixelRatio = 2;
     this.gradient;
     this.colors = DEFAULT_COLORS;
-    this.isMounted = false;
 
     this.resize = debounce(this.resize.bind(this), 200);
     this.render = this.render.bind(this);
@@ -60,23 +59,15 @@ export default class CrashGameGraph extends EventEmitter {
     this.game.on("escape", this.escape.bind(this));
   }
 
+  // get colors() {
+  //   return ["#FFFFFF", "#FFFFFF", "#7322FF", "#3d444b", "#ed6300"]
+  // }
+
   mountEffect(canvas) {
-    this.canvas = canvas;
-    this.isMounted = true;
-    // Initialize rendering logic here
-    console.log("Canvas rendering initialized.");
     if (canvas) {
       this.startRendering(canvas);
     } else {
       this.stopRendering();
-    }
-  }
-
-  unmountEffect() {
-    if (this.isMounted) {
-      // Clean up rendering logic here
-      console.log("Canvas rendering cleaned up.");
-      this.isMounted = false;
     }
   }
 

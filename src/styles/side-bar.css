@@ -5,6 +5,7 @@
     left: 0px;
     height: calc(-64px + 100vh);
     transform: translateZ(0px);
+    z-index: 10;
 }
 .css-12khlxv {
     position: relative;
@@ -147,8 +148,8 @@
     font-style: normal;
     cursor: pointer;
     user-select: none;
-    color: #FA00DF;
-    text-shadow: #ED1E63  0px 0px 8px;
+    color: var(--primary-color);
+    text-shadow: #33ed1e5f  0px 0px 8px;
     background: rgba(203, 215, 255, 0.03);
 }
 
@@ -505,7 +506,7 @@
     min-height: 100vh;
     transition: all 250ms ease 0s;
 }
-@media (min-width: 1000px) {
+@media (min-width: 750px) {
     .css-qk763z {
         padding-left: 240px;
         padding-right: 0px;
@@ -513,8 +514,8 @@
 }
 .css-sstt98, .css-sstt98:hover {
     background: rgba(203, 215, 255, 0.03);
-    color: #FA00DF;
-    text-shadow: #ED1E63  0px 0px 8px;
+    color: var(--primary-color);
+    text-shadow: #33ed1e5f  0px 0px 8px;
 }
 .css-4pv6ck {
     fill: currentcolor;
@@ -566,20 +567,6 @@
     outline: none;
     border: none;
     background: none;
-}
-.css-1nfl9e5 {
-    z-index: 1000;
-    position: fixed;
-    max-width: 360px;
-    transform: translateZ(0px);
-    width: 100%;
-}
-.css-1nfl9e5 {
-    z-index: 1000;
-    position: fixed;
-    max-width: 360px;
-    transform: translateZ(0px);
-    width: 100%;
 }
 
 .css-8sz5vj {

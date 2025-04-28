@@ -1,7 +1,7 @@
 <script>
 import { screen } from "$lib/store/screen";
-import {assets} from "./assets"
 import "../styles/footer.css"
+const logo = new URL('$lib/images/rx-casino-logo.png', import.meta.url).href;
 
 </script>
 
@@ -9,10 +9,10 @@ import "../styles/footer.css"
 <div class="css-smran7">
  <div class="{$screen > 750 ? "css-1d3r2lt" : "css-1vfwx11"}">
     <div class="{$screen > 750 ? "css-8at0mx" : "css-i0m45y"} ">
-        <img src="{assets?.logo}" alt="" class="css-z34z8j">
-        <div class="css-j2onl9">Copyright © 2024 CyclixGames.com. All rights reserved. Cyclix Games is a brand name of Global Dragon Ventures Ltd. Company Address: 2118 Guava Street, Belama Phase 1, Belize City, Belize. 
+        <img src="{logo}" alt="" class="css-z34z8j">
+        <div class="css-j2onl9">Copyright © 2024 xr-casino.com. All rights reserved. RX is a brand name of Global Dragon Ventures Ltd. Company Address: 2118 Guava Street, Belama Phase 1, Belize City, Belize. 
             </div>
-        <div class="css-j2onl9">Cyclix Games Casino is licensed and authorized by the Government of Anjouan.</div>
+        <div class="css-j2onl9">RX Casino is licensed and authorized by the Government of Anjouan.</div>
         <div class="css-j2onl9">Crypto trading is not gambling, and therefore not covered by our gaming license</div>
         <div class="css-1sg2lsz" style="padding-top: 8px;">
             <!-- <iframe sandbox="allow-popups" title="" src="https://licensing.gaming-curacao.com/validator/?lh=038ec74580025dbb8cbc57d16d90ed42&amp;template=tseal" width="150" height="50" class="css-jsj4j0"></iframe> -->

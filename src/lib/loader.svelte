@@ -1,7 +1,7 @@
 <script>
 	export let color 
 	
-	$: loadingColor = color === "btn" ? "rgba(15, 17, 26, 0.55)" : "#f10fff"
+	$: loadingColor = color === "btn" ? "rgba(15, 17, 26, 0.55)" : "#01a854"
 </script>
 
 <div class="sc-gKclnd sc-furwcr keuypW hTWjOR loading">

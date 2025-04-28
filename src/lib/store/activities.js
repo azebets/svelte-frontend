@@ -1,10 +1,11 @@
+import { toast } from 'svelte-sonner'
 import { writable} from "svelte/store"
 
 let _error = null
 export let error = writable(_error)
 
-let _success = null
-export let success = writable(_success)
+let _auth = null
+export let auth = writable(_auth)
 
 let _message = []
 
@@ -20,9 +21,10 @@ let _isLiveStat = false
 export let isLiveStat = writable(_isLiveStat)
 
 export const handleResposeMessages = ((type, res)=>{
-    message.set([{type: type, message: res}])
-    loading.set(false)
-    setTimeout(()=>{
-        message.set([])
-    },14000)
+    if(type === "error"){
+        toast.error(res)
+    }
+    else{
+        toast.success(res)
+    }
 })

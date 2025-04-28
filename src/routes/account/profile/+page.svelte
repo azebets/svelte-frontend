@@ -1,136 +1,118 @@
 <script>
+   import Verification from "$lib/auth/verify/page/index.svelte"
+   import "../../../styles/verification.css";
    import { user } from "$lib/store/profile";
    import { goto } from "$app/navigation";
+   import { onMount } from "svelte";
    import { loading } from "$lib/store/activities";
    import { url } from "$lib/store/routes";
+   const badge = new URL('../../../lib/images/badges/bronze1.png', import.meta.url).href
    import { handleAuthToken } from "$lib/store/routes";
-   import { onMount } from "svelte";
-   import "../../../styles/verification.css";
-   import "../../../styles/profile.css"
-   import Loader from "$lib/loader.svelte";
-   import { assets } from "$lib/assets";
+   import Loader from "../../../lib/loader.svelte";
+   import { app } from '$lib/store/app';
 
-   // Lazy load non-critical components
-   const Verification = import("$lib/auth/verify/page/index.svelte").then(m => m.default);
-   
-   // Initialize reactive variables efficiently
-   $: showPrivateContent = false;
-   $: isEdit = false;
-   $: username = "";
-   $: profileHidden = $user?.profileIsHidden ?? false;
-   $: track = !username || $user?.username === username || $loading;
-   $: profile_picture = $user?.profileImg;
-
-   // Add image variable declaration
-   let image;
-   let loadImage = false;
-   let badge = assets.badge[$user?.badge] || assets.badge.bronze1;
-
-   // Define Images array
-   let Images = [
+let Images = [
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720390192/avatar55_rtiys4.png", active: false},
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720390141/avatar44_ncyqcw.png", active: false},
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720398516/avatar1_l6garj.png", active: false},
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720398515/avatar2_ztgal3.png", active: true},
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720390128/avatar11_fbdw02.png", active: false},
-    { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720390124/avatar33_gnrkq8.png", active: false},
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720389924/avatar66_daptmu.png", active: false},
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720389880/avatar88_enyz9d.png", active: false},
-   ];
-
-   // Add handleUpdateImage function
-   const handleUpdateImage = async (img) => {
-      Images.forEach(element => {
-         if(element.img === img.img){
-            profile_picture = element.img;
-            element.active = true;
-         } else {
-            element.active = false;
-         }
-      });
-      Images = Images; // trigger reactivity
-   };
-
-   // Add previewImage handler
-   const previewImage = (event) => {
-     const file = event.target.files[0];
-     if (file) {
-       const reader = new FileReader();
-       reader.onload = (e) => {
-         profile_picture = e.target.result;
-       };
-       reader.readAsDataURL(file);
-     }
-   };
-
-   // Add handleSaved function with corrected URL handling
-   const handleSaved = async () => {
-      if (!handleChangeProflePicture) await initializeHandlers();
-      loadImage = true;
-      try {
-         const {response} = await handleChangeProflePicture(profile_picture, $handleAuthToken);
-         if(response){
-            user.set(response);
-            // Fix URL construction
-            const currentUrl = $url === "/" ? "" : $url;
-            goto(currentUrl);
-         }
-      } catch (error) {
-         console.error('Error saving profile picture:', error);
-      } finally {
-         loadImage = false;
-      }
-   };
-
-   // Lazy load handlers
-   let handleChangeUsername, handleChangeProfilePrivacy, handleGoogleLink, handleChangeProflePicture;
+]
    
-   // Initialize handlers only when needed
-   const initializeHandlers = async () => {
-     const handlers = await import("$lib/auth/hook");
-     const utils = await import("$lib/index");
-     
-     handleChangeUsername = handlers.handleChangeUsername;
-     handleChangeProfilePrivacy = handlers.handleChangeProfilePrivacy;
-     handleGoogleLink = handlers.handleGoogleLink;
-     handleChangeProflePicture = utils.handleChangeProflePicture;
-   };
+   $: showPrivateContent = false
+   $: isEdit = false
+   let username = ""
+   $: profileHidden = $user?.profileIsHidden || false
+   $: track = !username || $user.username === username || $loading
+   $: profile_picture = $user?.profileImg
+   
+   $: ChangeUsernameHook = false 
+   const handleChangeUsernameHook = (async()=>{
+      if(username){
+         ChangeUsernameHook = true
+         await $app?.handleChangeUsername(username, $handleAuthToken)
+         ChangeUsernameHook = false
+         username = ""
+      }
+   })
+   $: ishandlePrivacy = false
+   const handlePrivacy = (async()=>{
+      ishandlePrivacy = true
+      profileHidden =! profileHidden
+       await $app?.handleChangeProfilePrivacy(profileHidden, $handleAuthToken)
+       ishandlePrivacy = false
+   })
+   
+   const handleLinkEmail = (async()=>{
+      await $app?.handleGoogleLink($handleAuthToken)
+   })
 
-   // Initialize only when component mounts
-   onMount(() => {
-     initializeHandlers();
-     
-     if (Images?.length) {
-       Images.forEach(element => {
-         element.active = element.img === $user?.profileImg;
-       });
-     }
+   onMount(()=>{
+      Images.forEach(element => {
+      if(element.img === $user?.profileImg){
+         element.active = true
+         Images = Images
+      }else{
+         element.active = false
+      }
    });
+})
 
-   // Optimize event handlers
-   const handleChangeUsernameHook = async () => {
-     if (!handleChangeUsername) await initializeHandlers();
-     const response = await handleChangeUsername(username, $handleAuthToken);
-     if (response) username = "";
-   };
 
-   const handlePrivacy = async () => {
-     if (!handleChangeProfilePrivacy) await initializeHandlers();
-     profileHidden = !profileHidden;
-     await handleChangeProfilePrivacy(profileHidden, $handleAuthToken);
-   };
+const handleUpdateImage = (async(event)=>{
+   Images.forEach(element => {
+      if(element.img === event.img){
+         profile_picture = element.img
+         element.active = true
+         Images = Images
+      }else{
+         element.active = false
+      }
+   });
+})
+   
+let loadImage = false
+const handleSaved = (async()=>{
+   loadImage = true
+   if($user?.profileImg !== profile_picture){
+      const {response, error} = await $app?.handleChangeProflePicture(profile_picture, $handleAuthToken)
+      if(response){
+         user.set(response)
+         isEdit = false
+         loadImage = false
+      }else if(error){
+         loadImage = false
+      }
+   }else{
+      isEdit = false
+      loadImage = false
+   }
+   loadImage = false
+})
 
-   const handleLinkEmail = async () => {
-     if (!handleGoogleLink) await initializeHandlers();
-     await handleGoogleLink($handleAuthToken);
+let image;
+let imageUrl = '';
+const previewImage = (event) => {
+   const file = event.target.files[0];
+   if (file) {
+   const reader = new FileReader();
+   reader.onload = (e) => {
+      imageUrl = e.target.result;
+      profile_picture = imageUrl
    };
+   reader.readAsDataURL(file);
+   }
+};
+
 </script>
 
-  <div class="profile-container">
+<div class="css-59u6fd">
    <div class="Onkensldmd">
       <div size="70" class="css-1d8gn0m">
          <!-- {#if !isEdit} -->
-            <button on:click={() => goto(`/account/profile?tab=user&modal=profile&id=${$user?.user_id}`)} class="iWksniw">View</button>
+            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=user&modal=profile&id=${$user?.user_id}`)} class="iWksniw">View</button>
          <!-- {/if} -->
          {#if isEdit}
             <button on:click={handleSaved} class=" button iWksniw css-vmbe4r">
@@ -174,11 +156,10 @@
             <div class="css-or2cg1">
                <span class="css-n08hzl">Next:</span>
                <div size="24" class="css-qvw6u0">
-                  <img src="{badge}" alt="Badge" scale="0.72" class="css-10qm6dq">
+                  <img src="{badge}" alt="Bronze 1" scale="0.72" class="css-10qm6dq"></div>
+                  <div color="#E5A480" class="css-63t63w">{$user?.next_level}</div>
+                  <span class="css-n08hzl">$10,000</span>
                </div>
-               <div color="#E5A480" class="css-63t63w">{$user?.next_level}</div>
-               <span class="css-n08hzl">$10,000</span>
-            </div>
          </div>
       </div>
    </div>
@@ -266,15 +247,25 @@
          <div>
             <div class="css-1f51ttt">
                <input type="text" name="name" placeholder="{$user?.username}" id="rollbit-field-11108" bind:value={username}>
-               <button class="css-vmbe4r button" disabled={track} type="submit" style="margin-right: 4px;">{ $loading ? "Loading..." : "Change"}</button>
+               <button class="css-vmbe4r button" disabled={ChangeUsernameHook} type="submit" style="margin-right: 4px;">{ChangeUsernameHook ? "Loading..." : "Change"}</button>
             </div>
          </div>
+      </div>
+      <div id="recaptcha10642">
+         <div class="grecaptcha-badge" data-style="bottomright" style="width: 256px; height: 60px; position: fixed; visibility: hidden; display: block; transition: right 0.3s ease 0s; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;">
+            <div class="grecaptcha-logo">
+               <iframe title="reCAPTCHA" width="256" height="60" role="presentation" name="a-1l9u9dmsbhnu" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LcLy4QaAAAAAJTsyzu-3Vy0vM7N1rs71trH38oG&amp;co=aHR0cHM6Ly9yb2xsYml0LmNvbTo0NDM.&amp;hl=en&amp;v=rKbTvxTxwcw5VqzrtN-ICwWt&amp;size=invisible&amp;cb=cvvars8eq6e4"></iframe>
+            </div>
+            <div class="grecaptcha-error"></div>
+            <textarea id="g-recaptcha-response-100003" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea>
+         </div>
+         <iframe title="" style="display: none;"></iframe>
       </div>
    </form>
 
 <div class="css-18bcdcq">
    <div>
-      <input type="checkbox" id="proof-checkbox-11111" disabled={$loading} class="css-11eskem" checked={profileHidden} on:change={(e)=> handlePrivacy(e)}>
+      <input type="checkbox" id="proof-checkbox-11111" disabled={ishandlePrivacy} class="css-11eskem" checked={profileHidden} on:change={(e)=> handlePrivacy(e)}>
       <label for="proof-checkbox-11111" class="css-ep1r8t">
          <div class="css-1jwtohg"></div>
          Private profile
@@ -297,7 +288,7 @@
       </div>
    {/if}
 
-   <span style="padding-left: 20px;">{$loading ? "Loading..." : ""}</span>
+   <span style="padding-left: 20px;">{ishandlePrivacy ? "Loading..." : ""}</span>
 </div>
 </div>
 
@@ -326,9 +317,73 @@
      
    </div>
 </div>
+{#if !$user?.is_verified}
+   <Verification />
+{/if}
 
-{#await Verification then VerificationComponent}
-  <svelte:component this={VerificationComponent}/>
-{/await}
 
 
+<style>
+.iWksniw{
+   position: absolute;
+   right: 15px;
+   top: 15px;
+   font-size: 12px;
+   padding: 4px 14px;
+   background: rgba(203, 215, 255, 0.03);
+   border-radius: 2px;
+}
+.iWksniw1{
+   position: absolute;
+   right: 15px;
+   top: 15px;
+   font-size: 12px;
+   padding: 4px 14px;
+   border-radius: 2px;
+}
+.Jonmsene{
+   margin-top: 20px;
+   display: flex;
+   border-top: 1px solid rgba(128, 128, 128, 0.347);
+}
+.css-OMksnee{
+   cursor: pointer;
+   width: 55px;
+   padding: 1px;
+   margin-top: 10px;
+}
+.css-OMksnee.active{
+   border: 5px solid rgb(81, 227, 13);
+}
+.LsnnejkJ{
+   position: absolute;
+   background: none;
+   opacity: 0;
+}
+.upload {
+    width: 3.75rem;
+    height: 3.75rem;
+    position: absolute;
+    z-index: 11;
+}
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.upload .icon {
+   opacity: 0.4;
+    width: 2.125rem;
+    height: 2.125rem;
+    fill: rgb(255, 255, 255);
+}
+
+.upload input {
+    opacity: 0;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+</style>

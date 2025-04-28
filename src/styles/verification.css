@@ -47,7 +47,7 @@
     gap: 8px;
     padding: 4px 12px 4px 10px;
     color: var(--primary-color);
-    background: rgba(255, 24, 255, 0.08);
+    background: rgba(105, 179, 1, 0.063);
     font-size: 14px;
     font-family: "Geogrotesque Wide", sans-serif;
     font-weight: 500;
@@ -283,11 +283,6 @@
     }
 }
 
-@media (max-width: 767px) {
-    .css-t60dms {
-        padding: 4px;
-    }
-}
 
 @media (max-width: 499px) {
     .css-1m9br3f {

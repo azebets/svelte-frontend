@@ -1,29 +1,37 @@
 <script>
-    import { loading } from "$lib/store/activities";
+
     import { url } from "$lib/store/routes";
     import { goto } from "$app/navigation";
     import { device } from "$lib/store/profile";
-    import { handleLoginUser } from "../hook"
+    import { browser } from '$app/environment'
+    import { app } from '$lib/store/app';
     import Google from "../google/google.svelte";
 
     let password = ""
     let email = ""
-    $: track = !password || !email || $loading
+    $: loading = false
+    $: track = !password || !email || loading
     $: devic = { ...$device, Login_time: new Date(), type :"Email Login"}
     const handleSubmit = (async(event)=>{
-        const response = await handleLoginUser({password, email,  device:devic})
-        if(response){
-            if(response?.type){
-                 goto(`${$url === "/" ? "" : $url}/?tab=auth&modal=fa&oauth=${response?.password}&aouth2=${response?.secrete}&pip=${response?.email}&token=${response?.user_id}`)
-            }
-            else{
-                if(response){
-                    goto($url)
+        loading = true
+        const {status} = await await $app?.auth?.login({password, email,  device:devic})
+        if(status === "success"){
+                if(browser){
+                    window.location.href = "/"
                 }
-            }
-        }
-
-
+           }
+        loading = false
+        // if(response){
+        //     if(response?.type){
+        //          goto(`${$url === "/" ? "" : $url}/?tab=auth&modal=fa&oauth=${response?.password}&aouth2=${response?.secrete}&pip=${response?.email}&token=${response?.user_id}`)
+        //     }
+        //     else{
+        //         if(response){
+        //             goto($url)
+        //         }
+        //     }
+        //     loading = false
+        // }
     })
 
     let showPassword = false;
@@ -74,15 +82,12 @@
         </div>
     </div>
     <div class="css-1vec8iw"></div>
-
-<div class="css-1nsxilh">This site is protected by reCAPTCHA and the Google 
-    <!-- svelte-ignore a11y-invalid-attribute -->
-    <a href="#" rel="noreferrer">Privacy Policy</a> 
+<!-- svelte-ignore a11y-invalid-attribute -->
+<div class="css-1nsxilh">This site is protected by reCAPTCHA and the Google  <a href="#" rel="noreferrer">Privacy Policy</a> 
     and
-     <!-- svelte-ignore a11y-invalid-attribute -->
      <a href="#" rel="noreferrer">Terms of Service</a> apply.
 </div>
-<button class="css-u44gss button" disabled={track} on:click={handleSubmit} type="submit"> {$loading ? "Loading..." : "Login"}</button>
+<button class="css-u44gss button" disabled={track} on:click={handleSubmit} type="submit"> {loading ? "Loading..." : "Login"}</button>
 <Google text={"Sign in with Google"}/>
 
 

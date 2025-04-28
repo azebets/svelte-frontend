@@ -1,9 +1,9 @@
 <script>
     import { screen } from "$lib/store/screen";
     import { handleAuthToken} from "$lib/store/routes";
-    import { handleChangeDefaultWallet } from "$lib/index"
     import { coin_list, default_Wallet } from "$lib/store/coins";
     import { createEventDispatcher } from "svelte";
+    import { app } from '$lib/store/app';
     import Loader from "../loader.svelte";
     const dispatch = createEventDispatcher()
 
@@ -12,7 +12,7 @@
         default_Wallet.set(newItem)
         dispatch("close")
         loading = newItem
-        const {response, isLoading} = await handleChangeDefaultWallet($handleAuthToken, newItem)
+        const {response, isLoading} = await $app?.handleChangeDefaultWallet( newItem)
         if(response){
             coin_list.set(response)
             // response.forEach(element => {
@@ -27,7 +27,7 @@
 </script>
 
 <div id="rollbit-modal-popover-container">
-    <div class="css-1nfl9e5" style="height: 225.583px; max-height: 225.583px; top: 59.8333px; left: {$screen < 500 ? 7 : 35}%;">
+    <div class="css-1nfl9e5" style="height: 225.583px; max-height: 225.583px; top: 59.8333px; left: {$screen < 500 ? 0 : 35}%;">
         <div class="css-rymlxq">
                 <div style="padding: 16px 16px 4px;">
                     <div class="css-1yx9de1">

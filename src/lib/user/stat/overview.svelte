@@ -1,7 +1,7 @@
 <script>
-    // import { goto } from "$app/navigation";
-    // import { url } from "$lib/store/routes";
-    // export let id
+    import { goto } from "$app/navigation";
+    import { url } from "$lib/store/routes";
+    export let id
 </script>
 
 <div class="sc-gXRojI sc-imVSVl bRYT jLwYYm">
@@ -10,7 +10,7 @@
             <use xlink:href="#icon_Statistics"></use>
         </svg>
         Statistics
-        <!-- <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=user&modal=stat&id=${id}`)} class="hover">
+        <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=user&modal=stat&id=${id}`)} class="hover">
             Details
             <svg xmlns="http://www.w3.org/2000/svg" class="sc-gsDKAQ hxODWG icon small" viewBox="0 0 221.14 133.14">
                 <defs></defs>
@@ -20,7 +20,7 @@
                     </g>
                 </g>
             </svg>
-        </button> -->
+        </button>
     </div>
     <div class="content">
         <div class="sc-bGaVxB gvTPwc">

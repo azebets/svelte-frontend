@@ -1,8 +1,8 @@
 <script>
-   import "../../styles/home.css"
-   import LiveLayout from "$lib/homeComponent/liveLayout.svelte";
-   import NavTabs from "$lib/homeComponent/navTabs.svelte";
-   import { liveCasino } from "$lib/constants"
+      import "../../styles/home.css"
+    import LiveLayout from "$lib/homeComponent/liveLayout.svelte";
+    import NavTabs from "$lib/homeComponent/navTabs.svelte";
+       import { livGames } from "$lib/homeComponent/hook"
 </script>
 
 <div class="css-7oel5t">
@@ -44,7 +44,7 @@
             </button>
          </div>
          <div class="css-1l01j61">
-            {#each liveCasino as game}
+            {#each livGames as game}
                <div>
                   <div class="css-d6icxj">
                      <img class="css-nyormw" src="{game.img}" alt="Mines">

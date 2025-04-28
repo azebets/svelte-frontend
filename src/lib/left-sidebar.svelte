@@ -10,7 +10,7 @@
     const dispatch = createEventDispatcher();
     export let sideHasExpand
     import { screen } from "$lib/store/screen";
-    // const badge = new URL('../lib/images/badges/bronze1.png', import.meta.url).href
+    const badge = new URL('../lib/images/badges/bronze1.png', import.meta.url).href
  
  
 let element;

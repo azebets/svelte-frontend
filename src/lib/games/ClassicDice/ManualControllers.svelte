@@ -14,12 +14,12 @@ import { soundManager,soundHandler, DiceEncription, payout, isbetLoadingBtn, bet
 } from "$lib/games/ClassicDice/store/index";
 
 
-$: default_coins = "https://res.cloudinary.com/dxwhz3r81/image/upload/v1721026026/USD_Coin_-_Green_ai65gw.png"
+$: default_coins = "assets/BTC.webp"
 $: bet_amount = 0;
 $: demo_wallet = "Fun Coupons";
 $: demo_minebet = 100
 $: demo_maxWallet = 10000
-$: USD_min = 0.2
+$: USD_min = 0.01
 $: USD_max = 2000
 $: aval_bal = parseFloat($default_Wallet?.balance) || 100
 
@@ -76,7 +76,7 @@ const dive = (sign) => {
         handleResposeMessages("error", `Minimum bet amount for Fun Coupons is ${demo_minebet}`)
       } 
     else if (parseFloat(bet_amount) < USD_min && $default_Wallet?.coin_name !== demo_wallet ) {
-      handleResposeMessages("error", `Minimum bet amount for USD is ${USD_min}`)
+      handleResposeMessages("error", `Minimum bet amount for SOL is ${USD_min}`)
     } 
     else {
         let data = {
@@ -131,8 +131,7 @@ const dive = (sign) => {
 
   const handlesjen = (e) => {
     bet_amount = (parseFloat($default_Wallet?.balance) * (e / 100)).toFixed(7);
-  }
-  
+  };
 </script>
 
 <div class="game-control-panel">

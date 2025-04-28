@@ -7,6 +7,7 @@ import PersistentStorage from "./PersistentStorage";
 import WalletManager from "./WalletManager";
 import UserStore from "./UserStore";
 import BaseScriptManager from "./BaseScriptManager";
+import { toast } from 'svelte-sonner'
 
 // Game Handler Base Class
 const CasinoGame = class extends EventEmitter {
@@ -20,8 +21,8 @@ const CasinoGame = class extends EventEmitter {
     this.isInited = false;
     this.initPms = null;
     this.isActive = false;
-    this.currencyName = "PPF";
-    this.currencyImage = "https://res.cloudinary.com/dxwhz3r81/image/upload/v1697828376/ppf_logo_ntrqwg.png";
+    this.currencyName = "USD";
+    this.currencyImage = "assets/BTC.webp";
     this.amount = new Decimal(1);
     this.isBetting = false;
     this.controlIdx = 1;
@@ -260,8 +261,8 @@ const CasinoGame = class extends EventEmitter {
   // Bet validations
   async beforeBetCheck(amount, currency = this.currencyName) {
     if (!UserStore.getInstance().user) {
-      window.location.href = "?tab=auth&modal=login";
-      throw new Error("You need to be signed in");
+      // window.location.href = "/login";
+      toast.error("You need to be signed in");
     }
     if (!amount) throw new Error("Set a bet amount");
     this.checkBetCurrency(currency);
@@ -361,7 +362,7 @@ const CasinoGame = class extends EventEmitter {
 
   checkBetCurrency(currency) {
     if (currency !== "Fun Coupons" && currency !== "USD") {
-      throw new Error('Select Fun Coupons or USD to place bets!');
+      throw new Error('Select Fun Coupons or SOL to place bets!');
     }
   }
 

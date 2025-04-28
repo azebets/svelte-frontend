@@ -207,8 +207,8 @@ const handleRollUnder = ()=>{
 </div>
 
 <style>
-    .fPOXr {
-        flex: 1 1 0%;
-        background: url(../../images/gameIcons/bg80.png) center center / cover no-repeat;
-    }
+.fPOXr {
+    flex: 1 1 0%;
+    background: url(../../images/gameIcons/bg80.png) center center / cover no-repeat;
+}
 </style>

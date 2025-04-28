@@ -725,34 +725,23 @@ export default class CrashGame extends BaseGame {
   }
 
   async loadGameHistory() {
-    try {
-      const response = await axios.get(
-        serverUrl() + "/api/user/crash-game/history/",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const recentResults = response.data?.recent;
-
-      if (!recentResults || recentResults.length === 0) {
-        console.warn("No recent game history found.");
-        return; // Exit early if no data is available
+    const response = await axios.get(
+      serverUrl() + "/api/user/crash-game/history/",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-
-      this.resetHistory({
-        gameId: recentResults[0].gameId || 0,
-        hash: recentResults[0].hash || "",
-        odds: 0,
-        crash: 0,
-        cashedAt: 0,
-        wager: 0,
-      });
-    } catch (error) {
-      console.error("Error loading game history:", error);
-    }
+    );
+    const recentResults = response.data.recent;
+    this.resetHistory({
+      gameId: recentResults[0].gameId,
+      hash: recentResults[0].hash,
+      odds: 0,
+      crash: 0,
+      cashedAt: 0,
+      wager: 0,
+    });
   }
 
   checkPause() {
@@ -776,13 +765,5 @@ export default class CrashGame extends BaseGame {
     }
     this.xbet.deactivate();
     super.deactivate();
-  }
-
-  destroy() {
-    // Clean up resources, such as event listeners or intervals
-    if (this.graph && typeof this.graph.unmountEffect === "function") {
-      this.graph.unmountEffect(); // Detach canvas rendering logic
-    }
-    console.log("CrashGame instance destroyed.");
   }
 }

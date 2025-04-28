@@ -81,7 +81,7 @@
             <Email />
         {/if}
 
-        <button on:click={()=> level2 =! level2} class="css-1jv8xsj">
+        <!-- <button on:click={()=> level2 =! level2} class="css-1jv8xsj">
             Level 3
             {#if $user?.emailIsVerified}
                 <div color="#FFB018" class="css-155k8hu">
@@ -97,8 +97,8 @@
         </button>
         {#if level2}
             <Level2 />
-        {/if}
-     
+        {/if} -->
+<!--      
         <button on:click={()=> level4 =! level4} class="css-1jv8xsj">
             Level 4 
             <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg" size="8" class="css-1i5dzy8">
@@ -116,7 +116,7 @@
         </button>
         {#if level5}
             <Level5 />
-        {/if}
+        {/if} -->
         <div class="css-pvk2ve" style="margin-top: 24px; background: none; padding: 0px; color: rgb(177, 182, 198);">
             <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" size="14" class="css-ckrezq" style="margin-right: 8px;">
                 <path d="M2.313 2.313A7.896 7.896 0 1 0 13.48 13.479 7.896 7.896 0 0 0 2.312 2.313zm5.9 1c.666 0 1.2.55 1.2 1.216a1.22 1.22 0 0 1-1.2 1.217c-.667 0-1.217-.55-1.217-1.234 0-.666.55-1.2 1.216-1.2zm1.716 8.15a.79.79 0 0 1-.167.283c-.433.45-.966.716-1.6.716-.3 0-.583 0-.883-.05-.483-.066-1.1-.666-1.017-1.3l.2-1.3c.134-.75.267-1.516.4-2.266 0-.05.017-.1.017-.15 0-.317-.1-.433-.416-.467-.134-.017-.267-.033-.4-.066-.15-.05-.234-.184-.217-.3.016-.134.1-.217.267-.25.083-.017.183-.017.283-.017h2.3c.283 0 .45.133.45.417 0 .233-.034.466-.084.7-.15.866-.316 1.716-.466 2.583-.05.283-.117.566-.15.85-.017.133 0 .283.033.416.05.184.184.284.367.267.15-.017.3-.066.45-.133.117-.05.216-.134.333-.167.2-.066.35.05.3.234z" fill="currentColor" fill-rule="evenodd"></path>

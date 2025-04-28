@@ -1,5 +1,4 @@
 <script>
-    import { browser} from '$app/environment';
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher()
     import { goto } from "$app/navigation"
@@ -11,48 +10,19 @@
     export let tab
   
    let wallet = [
-     {
-        is_active: false,
-         fullname: "Bitcoin",
-        coin_image:"https://assets.coingecko.com/coins/images/1/standard/bitcoin.png?1696501400", 
-        coin_name: "BTC", 
-    },
-    {
-     is_active: false,   
-     fullname: "Ethereum",
-     coin_image:"https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628", 
-     coin_name: "ETH", 
-    },
     {
      is_active: true,   
-     fullname: "Tron",
-     coin_image:"https://assets.coingecko.com/coins/images/1094/standard/tron-logo.png?1696502193", 
-     coin_name: "TRX", 
-    },
-    {
-     is_active: false,   
-     fullname: "Solana",
+     fullname: "Dollar",
      coin_image:"https://s2.coinmarketcap.com/static/img/coins/64x64/16116.png", 
-     coin_name: "SOL"
+     coin_name: "USD",
+     disabled: false
     },
-     {
-     is_active: false,   
-     fullname: "Litecoin",
-     coin_image:"https://assets.coingecko.com/coins/images/2/standard/litecoin.png?1696501400", 
-     coin_name: "LTC"
-    },
-    {
-     is_active: false,   
-     fullname: "Tether",
-     coin_image:"https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663", 
-     coin_name: "USDT"
-    }
  ]
 
 
 function handleClickOutside(event) {
   if (!event.target.closest('.css-15hip2x')) {
-    goto($url)
+    // goto($url)
   }
 }
 
@@ -63,8 +33,8 @@ $: referral = tab[2]
 
 
 <div class="css-1yogdko" >
-     <button class="css-17zcsfw" on:click={handleClickOutside}>
-         <div class="css-15hip2x" type="button" >
+     <div class="css-17zcsfw" >
+         <div class="css-15hip2x" >
              <div class="css-1nc5kzu">
                  <button on:click={()=> goto($url)} class="css-1ou4ub2">
                      <svg width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" size="20" class="css-1cvv4jt">
@@ -96,7 +66,7 @@ $: referral = tab[2]
                      </div>
                  </div>
                  {#if tab[1] === "deposit"}
-                    <Deposit wallet={wallet}/>
+                    <Deposit wallet={wallet} currency={tab[2]}/>
                  {/if}
                  {#if tab[1] === "withdraw"}
                     <Withdraw wallet={wallet} currency={tab[2]}/>
@@ -106,7 +76,7 @@ $: referral = tab[2]
                 {/if}
              </div>
             </div>
-     </button>
+    </div>
 </div>
 
 

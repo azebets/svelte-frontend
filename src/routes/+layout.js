@@ -1,45 +1,36 @@
 import { browser } from '$app/environment';
-import { routes, handleAuthToken, otp } from "$lib/store/routes";
-import { handleProfile } from "$lib/index";
+import { routes, otp } from "$lib/store/routes";
 import { changeotp } from "$lib/store/routes";
+import { app, loadapp } from '../lib/store/app';
+import { serverUrl } from "../lib/backendUrl";
 
 /** @type {import('./$types').PageLoad} */
-export async function load({ route, data }) {
+export async function load({ route }) {
+  // Defer non-critical initialization
   if (browser) {
-    // Preload classic-dice assets immediately
-    const preloadAssets = () => {
-      // Preload main components
-      const links = [
-        '/src/lib/games/ClassicDice/gameview.svelte',
-        '/src/lib/games/ClassicDice/Controls.svelte',
-        '/src/lib/games/ClassicDice/audio/SoundManager.js',
-      ].map(href => {
-        const link = document.createElement('link');
-        link.rel = 'modulepreload';
-        link.href = href;
-        return link;
-      });
-
-      document.head.append(...links);
+    // Dynamically import App_script only when needed
+    const { App_script } = await import('../lib');
+    const _app = new App_script();
+    const _url = serverUrl();
+    _app.serverUrl(_url);
+    
+    // Initialize user session in parallel
+    const initializeUser = async () => {
+      const _user = document.cookie.match(/secret=([^;]+)/)?.[1];
+      if (_user) {
+        await _app.profile(_user);
+      } else {
+        loadapp.set(false);
+      }
     };
 
-    // Execute immediately
-    preloadAssets();
+    // Run initialization in background
+    initializeUser();
+    app.set(_app);
+  } else {
+    loadapp.set(false);
   }
 
-  let password = browser && JSON.parse(sessionStorage.getItem('password'));
-  let fach = browser && JSON.parse(sessionStorage.getItem('otp'));
-  const user = browser && JSON.parse(localStorage.getItem('drr'));
-  const changeEmail = browser && JSON.parse(sessionStorage.getItem('change-email'));
-
-  if (user) {
-    await handleProfile(user);
-  }
-
-  changeotp.set(changeEmail);
-  handleAuthToken.set(user);
   routes.set(route.id);
-  otp.set(fach);
-  
-  return { password };
+  return {};
 }

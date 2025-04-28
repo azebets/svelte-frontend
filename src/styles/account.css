@@ -31,7 +31,7 @@
     user-select: none;
     cursor: default;
     background: rgba(203, 215, 255, 0.055);
-    color: rgb(255, 193, 255);
+    color: var(--primary-color);
     text-shadow: var(--primary-color);
     text-transform: none;
     font-family: "Geogrotesque Wide", sans-serif;
@@ -896,12 +896,6 @@ input[type=radio], input[type=checkbox] {
     .css-17tg23y {
         padding-left: 6px;
         padding-right: 6px;
-    }
-}
-
-@media (max-width: 767px) {
-    .css-t60dms {
-        padding: 4px;
     }
 }
 

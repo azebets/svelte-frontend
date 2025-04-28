@@ -1,12 +1,11 @@
 <script>
     import { browser } from '$app/environment'
-        import { handleVerifyEmail } from "../../../../auth/hook"
     import { onMount } from 'svelte';
-    import { handleAuthToken} from "$lib/store/routes";
     import { url } from "$lib/store/routes";
     import Loader from "$lib/loader.svelte"
     import { seaser } from "$lib/store/routes";
     import { goto } from "$app/navigation"
+    import { app } from '$lib/store/app';
 
     let code = ""
     $: loading = false
@@ -15,7 +14,7 @@
 
     const handleEmail = (async()=>{
         loading = true
-        const response = await handleVerifyEmail(code, token, $handleAuthToken)
+        const response = await $app?.handleVerifyEmail(code, token)
         loading = false
         if(response){
             goto($url)
@@ -39,7 +38,7 @@
         <button class="css-xzyayo" style="cursor: auto;">
             <div class="css-1bws6us" style="width: 400px; padding:40px">
                 <div class="css-1nc5kzu2" >
-                    <button class="css-1ou4ub2 fLASqZ" style="top: 0;">
+                    <button on:click={()=> goto($url)} class="css-1ou4ub2 fLASqZ" style="top: 0;">
                         <svg width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" size="20" class="css-1cvv4jt">
                             <title>Close</title>
                             <g id="cross" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

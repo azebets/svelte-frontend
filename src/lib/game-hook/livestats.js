@@ -50,7 +50,7 @@ export default function useLiveStats(store, key) {
     return Object.keys(stats).length ? stats : JSON.parse(
       localStorage.getItem(key) ||
         JSON.stringify({
-          token_img:"https://res.cloudinary.com/dxwhz3r81/image/upload/v1721026026/USD_Coin_-_Green_ai65gw.png",
+          token_img:"assets/BTC.webp",
           profit: 0,
           wagered: 0,
           wins: 0,

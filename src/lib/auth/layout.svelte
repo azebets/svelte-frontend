@@ -52,17 +52,16 @@
                     {/if}
                 </div>
                 <div class="css-97vdup">
-                    <img src="assets/banners/welcome_banner2.png" alt="">
                     <div class="css-1uqg8wt">
-                        
                         <div></div>
-                        
                         <!-- <div class="css-92mle7">By accessing the site, I attest that I am at least 18 years old and have read the 
                             <a class="css-1hv393j" href="/terms-and-conditions" target="_blank">Terms &amp; Conditions.</a>
                         </div> -->
                     </div>
                 </div>
             </div>
+          
+          
           </div>
        </div>
     </div>

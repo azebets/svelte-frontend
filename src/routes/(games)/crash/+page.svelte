@@ -1,61 +1,37 @@
 <script>
-  import { browser } from "$app/environment";
-  import { newScreen } from "$lib/store/screen";
-  import GameControls from "$lib/games/crash/GameControls.svelte";
-  import GameActions from "$lib/games/crash/GameActions.svelte";
-  import GameView from "$lib/games/crash/GameView.svelte";
-  import AllBets from "$lib/games/crash/AllBets.svelte";
-  import MyBets from "$lib/games/crash/MyBets.svelte";
-  import GameHeader from "$lib/games/crash/GameHeader.svelte";
-  import LiveBets from "$lib/games/crash/LiveBets.svelte";
-  import { crashGame } from "$lib/games/crash/store";
-  import { onMount, onDestroy } from "svelte";
-  import { navigating } from "$app/stores";
-  import CrashGame from "$lib/games/crash/logics/CrashGame";
+import { browser } from "$app/environment";
+import { newScreen } from "$lib/store/screen";
+import GameControls from "$lib/games/crash/GameControls.svelte";
+import GameActions from "$lib/games/crash/GameActions.svelte";
+import GameView from "$lib/games/crash/GameView.svelte";
+import AllBets from "$lib/games/crash/AllBets.svelte";
+import MyBets from "$lib/games/crash/MyBets.svelte";
+import GameHeader from "$lib/games/crash/GameHeader.svelte";
+import LiveBets from "$lib/games/crash/LiveBets.svelte";
+import { crashGame } from "$lib/games/crash/store";
+import { onMount } from "svelte";
+import CrashGame from "$lib/games/crash/logics/CrashGame";
 
-  $: tabOffset = $newScreen > 1100 ? 0 : 1;
-  $: currentTab = !tabOffset && currentTab === 3 ? 1 : (currentTab || 1);
-  $: gameInit = false;
-  let gameInstance;
 
-  // Initialize the game
-  const initializeGame = async () => {
-    if (browser) {
-      try {
-        gameInstance = new CrashGame();
-        await gameInstance.initialize();
-        crashGame.set(gameInstance);
-        gameInit = true;
-      } catch (error) {
-        console.log("Error initializing game:", error);
-      }
+
+$: tabOffset = $newScreen > 1100 ? 0 : 1;
+$: currentTab = !tabOffset && currentTab === 3 ? 1 : (currentTab || 1);
+$: gameInit = false;
+
+
+onMount(async () => {
+  if (browser) {
+    try {
+      const gameInstance = new CrashGame();
+      await gameInstance.initialize();
+      crashGame.set(gameInstance);
+      gameInit = true;
+    } catch (error) {
+      console.log("Error init game ", error);
     }
-  };
-
-  // Cleanup the game
-  const cleanupGame = () => {
-    if (gameInstance) {
-      if (typeof gameInstance.destroy === "function") {
-        gameInstance.destroy(); // Call the destroy method if it exists
-      }
-      crashGame.set(null);
-      gameInit = false;
-    }
-  };
-
-  // Handle component lifecycle
-  onMount(async () => {
-    await initializeGame();
-  });
-
-  onDestroy(() => {
-    cleanupGame();
-  });
-
-  // Reinitialize the game when navigating back
-  $: if (!$navigating && !gameInit) {
-    initializeGame();
   }
+})
+
 </script>
 
 <div id="game-crash" class="sc-haTkiu lmWKWf game-style1 sc-cBIieI ikZPEu">
@@ -72,20 +48,19 @@
   </div>
   <div class="sc-cxpSdN kQfmQV tabs game-tabs len-3">
     <div class="tabs-navs">
-      {#if Boolean(tabOffset)}
-        <button on:click={() => (currentTab = 1)} class="tabs-nav {currentTab === 1 ? 'is-active' : ''}">All Bets</button>
-      {/if}
-      <button
-        on:click={() => (currentTab = 1 + tabOffset)}
-        class="tabs-nav {currentTab === 1 + tabOffset ? 'is-active' : ''}">My Bets</button>
-      <button
-        on:click={() => (currentTab = 2 + tabOffset)}
+    {#if Boolean(tabOffset)}
+      <button on:click={() => (currentTab = 1)} class="tabs-nav {currentTab === 1 ? 'is-active' : ''}">All Bets</button>
+    {/if}
+    <button
+      on:click={() => (currentTab = 1 + tabOffset)}
+      class="tabs-nav {currentTab === 1 + tabOffset ? 'is-active' : ''}">My Bets</button><button
+      on:click={() => (currentTab = 2 + tabOffset)}
         class="tabs-nav {currentTab === 2 + tabOffset ? 'is-active' : ''}">History</button>
       <div class="bg" style="width: {100 /(Boolean(tabOffset) ? 3 : 2)}%; left: {(Boolean(tabOffset) ? (100/3) : 50) * (Boolean(tabOffset) ? (currentTab - tabOffset) : currentTab - 1)}%;"></div>
     </div>
     <div class="tabs-view" style="transform: none;">
       {#if Boolean(tabOffset) && currentTab === 1}
-        <LiveBets />
+        <LiveBets/>
       {/if}
       {#if currentTab === 1 + tabOffset}
         <MyBets />
@@ -145,7 +120,7 @@
   .lmWKWf .game-main {
     position: relative;
     border-radius: 1.25rem;
-    background-color: rgb(23, 24, 27);
+    background-color: rgb(20, 22, 34);
   }
   :global(
       .lmWKWf.game-style0 .game-view,

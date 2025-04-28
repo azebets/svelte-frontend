@@ -1,10 +1,12 @@
 <script>
+  import { onMount } from "svelte";
   import { crashGameType } from "./store";
+
   const changeGameType = (type) => {
     return (e) => {
-        crashGameType.set(type)
-    }
-  }
+      crashGameType.set(type);
+    };
+  };
 </script>
 
 <div class="sc-hKumaY FHHZH">
@@ -41,6 +43,4 @@
   .kQfmQV button.tabs-nav {
     width: 5.625rem;
   }
-
-
 </style>

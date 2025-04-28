@@ -1,7 +1,8 @@
 import Decimal from "decimal.js";
 import EventEmitter from "$lib/logics/EventEmitter";
 import { fetchWallet } from "$lib/index";
-import { default_Wallet, usd, fun_coupon, } from "$lib/store/coins";
+import { app } from '$lib/store/app';
+import { default_Wallet, USD, fun_coupon, } from "$lib/store/coins";
 import {
   currencyRates, preferredCurrency
 } from "$lib/store/currency";
@@ -62,7 +63,7 @@ class Currency {
   addDeduction(e) {
     this.deducting = this.deducting.add(e);
     if (this.currencyName === "USD") {
-      usd.update((wallet) => ({
+      USD.update((wallet) => ({
         ...wallet,
         balance: this.available,
       }));
@@ -84,7 +85,7 @@ class Currency {
 const appData = {
   currencyName: "USD",
   currencyImage:
-    "https://res.cloudinary.com/dxwhz3r81/image/upload/v1721026026/USD_Coin_-_Green_ai65gw.png",
+    "assets/BTC.webp",
   enableLocaleCurrency: true,
   localeCurrencyName: "USD",
 };
@@ -161,7 +162,7 @@ export default class WalletManager extends EventEmitter {
         }
       }
     }
-    usd.subscribe((wallet) => {
+    USD.subscribe((wallet) => {
       updateWallet(wallet);
     });
     fun_coupon.subscribe((wallet) => {
@@ -205,7 +206,7 @@ export default class WalletManager extends EventEmitter {
       amount,
       currency,
       type,
-      solved: false,
+      USDved: false,
       balance: -1,
       timer: 0,
     };
@@ -236,7 +237,7 @@ export default class WalletManager extends EventEmitter {
       this.dict[currency].addDeduction(amount);
       deduction.amount = deduction.amount.add(amount);
       deduction.balance = balance;
-      if (deduction.solved) {
+      if (deduction.USDved) {
         this.deleteDeduction(deduction.id);
       }
     } else if (id >= 20736e5) {
@@ -246,7 +247,7 @@ export default class WalletManager extends EventEmitter {
         balance,
         currency,
         type: "show",
-        solved: true,
+        USDved: true,
         timer: 0,
       };
       this.emit("deduction", deduction);
@@ -255,12 +256,12 @@ export default class WalletManager extends EventEmitter {
     this.dict[currency].amount = balance;
   }
 
-  resolveDeduction(id, notify = true) {
+  reUSDveDeduction(id, notify = true) {
     const deduction = this.deductions[id];
 
     if (deduction) {
       if (notify && deduction.balance === -1) {
-        deduction.solved = true;
+        deduction.USDved = true;
       } else {
         this.deleteDeduction(deduction.id, notify);
       }
@@ -291,12 +292,12 @@ export default class WalletManager extends EventEmitter {
   }
 
   async syncData() {
-    const [fun_coupon, usd] = await Promise.all([
+    const [fun_coupon, USD] = await Promise.all([
       fetchWallet("fun"),
-      fetchWallet("usd"),
+      fetchWallet("USD"),
     ]);
 
-    const balances = [fun_coupon, usd].map(
+    const balances = [fun_coupon, USD].map(
       (wallet) => ({
         amount: wallet.balance,
         currencyName: wallet.coin_name,
@@ -383,7 +384,7 @@ export default class WalletManager extends EventEmitter {
       status: currency.displayStatus,
     }));
     // TODO: update currency display
-    return Promise.resolve(); //api.post("/user/amount/display/", { list: statuses });
+    return Promise.reUSDve(); //api.post("/user/amount/display/", { list: statuses });
   }
 
   getUsdPrice(currency) {

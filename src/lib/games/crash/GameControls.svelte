@@ -65,7 +65,7 @@
   };
 
   $: xBet = null;
-  $: coinImage = "https://res.cloudinary.com/dxwhz3r81/image/upload/v1721026026/USD_Coin_-_Green_ai65gw.png";
+  $: coinImage = "assets/BTC.webp";
   $: coinName = "USD";
 
   let game = null;
@@ -508,7 +508,7 @@
                   type="text"
                   value={currentAmountValue}
                 />
-                <img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
+                <img alt="" class="coin-icon" src={canViewInFiat ? "/assets/BTC.webp" :  coinImage} />
                 <div class="sc-kDTinF bswIvI button-group">
                   <button disabled={betting || inputDisabled} on:click={handleSetAmount("/")}
                     >/2</button>
@@ -625,7 +625,7 @@
                 on:change={handleSetXAmount("=")}
                 type="text"
                 value={currentXAmountValue}
-              /><img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
+              /><img alt="" class="coin-icon" src={canViewInFiat ? "/assets/BTC.webp" :  coinImage} />
               <div class="sc-kDTinF bswIvI button-group">
                 <button disabled={xBetting || inputDisabled} on:click={handleSetXAmount("/")}
                   >/2</button>
@@ -993,7 +993,7 @@
                 disabled={autoBetting}
                 type="text"
                 value={currentXAmountValue}
-              /><img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
+              /><img alt="" class="coin-icon" src={canViewInFiat ? "/assets/BTC.webp" :  coinImage} />
               <div class="sc-kDTinF bswIvI button-group">
                 <button disabled={autoBetting} on:click={handleSetXAmount("/")}
                   >/2</button
@@ -1238,7 +1238,7 @@
                 value={canViewInFiat ? WalletManager.getInstance().amountToFiat(
                   autoBetInfo.stopOnWin
                 ).toFixed(2) : autoBetInfo.stopOnWin.toFixed(2)}
-              /><img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
+              /><img alt="" class="coin-icon" src={canViewInFiat ? "/assets/BTC.webp" :  coinImage} />
             </div>
           </div>
           <div
@@ -1282,7 +1282,7 @@
                 value={canViewInFiat ? WalletManager.getInstance().amountToFiat(
                   autoBetInfo.stopOnLose
                 ).toFixed(2) :autoBetInfo.stopOnLose.toFixed(2)}
-              /><img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
+              /><img alt="" class="coin-icon" src={canViewInFiat ? "/assets/BTC.webp" :  coinImage} />
             </div>
           </div>
           <div class="buttons">
@@ -1390,11 +1390,7 @@
   }
    .cYiOHZ.style1:not(.mobile-view) .game-control-switch > button.is-active {
     border-right: 2px solid var(--primary-color);
-    background-image: linear-gradient(
-      to left,
-      #9900cc44,
-      rgba(0, 0, 0, 0) 50%
-    );
+    background-image: linear-gradient(to left, rgba(91, 174, 28, 0.176), rgba(0, 0, 0, 0) 50%)
   }
   .cYiOHZ.style1:not(.mobile-view) .game-control-switch::after {
     content: "";
@@ -2007,7 +2003,12 @@
     align-items: center;
     height: 1rem;
   }
-
+  .cYiOHZ.style1{
+    flex-direction: row-reverse;
+  }
+  .cYiOHZ.style1 .game-control-switch > button.is-active{
+      border-bottom: 1px solid transparent;
+  }
   .cYiOHZ .input-control {
     background-color: rgba(49, 52, 60, 0.4);
   }

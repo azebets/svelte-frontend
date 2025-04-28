@@ -1,9 +1,12 @@
 <script>
+    import {goto} from "$app/navigation"
     export let tab
-    import { inHouseGames, slotsGames, liveCasino , showGame, allGame} from "$lib/constants"
-    $: displayView = tab === "all-game" ? allGame : tab === "slots" ? slotsGames :  tab === "originals" ? inHouseGames : tab === "live-casino" || tab === "blackjack" ? liveCasino  : tab === "roulette" || tab === "game-shows" ? showGame : []
+      import { handleListGame, slots , livGames, Buyslots} from "$lib/homeComponent/hook"
+      const allGames = [...handleListGame(),...slots, ...livGames, ...Buyslots]
+    $: displayView = tab === "all-game" ? allGames : tab === "slots" ? slots :  tab === "originals" ? handleListGame() : tab === "live-casino" || tab === "blackjack" ? livGames  : tab === "roulette" || tab === "game-shows" ? Buyslots : []
     let newdisplayViewList = []
      $: newdisplayViewList = [...displayView]
+    
      const handleCountryFiltring = ((value)=>{
         newdisplayViewList = displayView.filter(i => i.name.toLowerCase().includes(value.toLowerCase()));
     })
@@ -28,9 +31,11 @@
     </div>
     <div class="css-1l01j61">
         {#each newdisplayViewList as game}
-        <div class="css-d6icxj">
-            <img class="css-nyormw" src="{game.img}" alt="">
-        </div>
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <div on:click={()=> goto(game.url)} class="css-d6icxj">
+                <img class="css-nyormw" src="{game.img}" alt="">
+            </div>
         {/each}
         <div>
     </div>

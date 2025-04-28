@@ -5,32 +5,30 @@ export default defineConfig({
 	plugins: [sveltekit()],
 	build: {
 		target: 'esnext',
-		minify: 'esbuild',
+		minify: 'terser',
+		cssMinify: true,
 		rollupOptions: {
 			output: {
 				manualChunks: {
-					'classic-dice-core': [
-						'./src/lib/games/ClassicDice/gameview.svelte',
-						'./src/lib/games/ClassicDice/Controls.svelte'
+					'vendor': [
+						'axios',
+						'firebase',
+						'chart.js',
+						'mobx',
+						'lodash'
 					],
-					'classic-dice-secondary': [
-						'./src/lib/games/ClassicDice/componets/allbet.svelte',
-						'./src/lib/games/ClassicDice/componets/mybet.svelte',
-						'./src/lib/games/ClassicDice/componets/share/seedsettings.svelte',
-						'./src/lib/games/ClassicDice/componets/help.svelte',
-						'./src/lib/games/ClassicDice/componets/description.svelte'
+					'game-core': [
+						'./src/lib/games',
+					],
+					'ui-components': [
+						'./src/lib/components',
 					]
 				}
 			}
-		}
+		},
+		chunkSizeWarningLimit: 1000
 	},
 	optimizeDeps: {
-		include: ['svelte']
-	},
-	resolve: {
-		alias: {
-			$lib: '/src/lib',
-			$app: '/node_modules/@sveltejs/kit/src/runtime/app'
-		}
+		include: ['lodash', 'axios', 'firebase/app']
 	}
 });

@@ -1,4 +1,5 @@
 <script>
+let arras = [1,3,4,5,6,7,8,9,0,9,8,7,6,5,4,3,2,1,3]
 $: tab = 0
 </script>
 
@@ -15,17 +16,17 @@ $: tab = 0
     
     <div class="css-1am9shg">
         <div class="css-1pylomy">
-            {#each [1,3,4,5,6,7,8,9,0,9,8,7,6,5,4,3,2,1,3] as arr}
+            {#each arras as arr}
             <div class="css-3ezs24">
                 <a href="/">
                     <div class="css-e4tx6e">
-                        <img class="css-18g7uso" src="assets/games/Beheaded.webp" alt="">
+                        <img class="css-18g7uso" src="https://cdn.softswiss.net/i/s4/nolimit/Beheaded.webp" alt="">
                     </div>
                 </a>
                 <a href="/">
                     <div class="css-3v2xup" size="10">
                         <div size="15" class="css-1holazi">
-                        <img src="assets/games/Icon 5.webp" alt="" scale="1" class="css-1ago99h"></div>
+                        <img src="https://rollbit.com/static/Icon%205%20(platinum)-BAlv4mS-.png" alt="" scale="1" class="css-1ago99h"></div>
                         <div class="css-o3tivt" style="color: white; font-weight: 500;">MMHKB02</div>
                     </div>
                     <div class="css-1ypeake">$106.90</div>

@@ -1,6 +1,6 @@
-import { ServerURl } from "$lib/backendUrl"
+import { serverUrl } from "$lib/backendUrl"
 import axios from "axios";
-const URL = ServerURl()
+const URL = serverUrl()
 export const UseFetchData = (handleAuthToken) => {
   const fetch = async (endpoint, data = {}, method = "GET") => {
     const url = `${URL}/api${endpoint}`;

@@ -1,10 +1,9 @@
 <script>
-    import { handleChangeProflePicture } from "$lib/index";
    import { url } from "$lib/store/routes";
    import { user } from "$lib/store/profile";
    import { goto } from "$app/navigation";
    import Loader from "$lib/loader.svelte";
-   import { handleAuthToken } from "$lib/store/routes";
+   import { app } from '$lib/store/app';
     export let _user
     $: activeImge = _user?.profileImg || ""
     let Images = [
@@ -13,7 +12,6 @@
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720398516/avatar1_l6garj.png", active: false},
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720398515/avatar2_ztgal3.png", active: true},
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720390128/avatar11_fbdw02.png", active: false},
-    { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720390124/avatar33_gnrkq8.png", active: false},
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720389924/avatar66_daptmu.png", active: false},
     { img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1720389880/avatar88_enyz9d.png", active: false},
 ]
@@ -46,7 +44,7 @@ const previewImage = (event) => {
 let loadImage = false
    const handleSaved = (async()=>{
       loadImage = true
-         const {response} = await handleChangeProflePicture(activeImge, $handleAuthToken)
+         const {response} = await $app.handleChangeProflePicture(activeImge)
          if(response){
             user.set(response)
             goto($url)
