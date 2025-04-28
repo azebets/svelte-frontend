@@ -1,12 +1,12 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBnwi0tfL0WoOM3T_NpixieVeuL4nvi3Jc",
-    authDomain: "cass-9a996.firebaseapp.com",
-    projectId: "cass-9a996",
-    storageBucket: "cass-9a996.appspot.com",
-    messagingSenderId: "817978794599",
-    appId: "1:817978794599:web:749511c7eb4ae670676ac2"
+    apiKey: "AIzaSyBZxl6kPa5G3HUFyzCIyxG-pBQbJ1XrkTA",
+    authDomain: "rx-casino.firebaseapp.com",
+    projectId: "rx-casino",
+    storageBucket: "rx-casino.firebasestorage.app",
+    messagingSenderId: "344529976226",
+    appId: "1:344529976226:web:066c9effb1f555391a50fb"
 };
 
 export const fb = initializeApp(firebaseConfig);
