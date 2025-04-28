@@ -9,26 +9,9 @@ export default defineConfig({
 		cssMinify: true,
 		rollupOptions: {
 			output: {
-				manualChunks: {
-					'vendor': [
-						'axios',
-						'firebase',
-						'chart.js',
-						'mobx',
-						'lodash'
-					],
-					'game-core': [
-						'./src/lib/games',
-					],
-					'ui-components': [
-						'./src/lib/components',
-					]
-				}
+				manualChunks: undefined
 			}
 		},
 		chunkSizeWarningLimit: 1000
-	},
-	optimizeDeps: {
-		include: ['lodash', 'axios', 'firebase/app']
 	}
 });
