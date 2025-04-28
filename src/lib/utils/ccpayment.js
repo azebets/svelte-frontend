@@ -1,10 +1,19 @@
 import { ccpaymentService } from '$lib/services/ccpayment';
+import { writable, get } from 'svelte/store';
 
 // Cache for coin list
 let coinListCache = null;
 
-// Supported tokens in our application
-const SUPPORTED_TOKENS = ['BTC', 'ETH', 'LTC', 'SOL', 'USDT', 'USDC', 'TRX', 'TETH'];
+// Store for supported tokens
+export const supportedTokensStore = writable({
+  tokens: [],
+  lastFetched: null,
+  isLoading: false,
+  error: null
+});
+
+// Default fallback tokens if API fails
+const DEFAULT_TOKENS = ['BTC', 'ETH', 'LTC', 'SOL', 'USDT', 'USDC', 'TRX', 'TETH'];
 
 /**
  * Get coin ID from symbol by fetching from API or using cache
@@ -78,11 +87,81 @@ export const getDefaultExchangeRate = (currency) => {
 };
 
 /**
+ * Fetch supported tokens from the server and update the store
+ * @param {boolean} [force=false] - Force refresh even if cache is valid
+ * @returns {Promise<Array<string>>} - Array of supported token symbols
+ */
+export const fetchSupportedTokens = async (force = false) => {
+  // Get current store state
+  const currentState = get(supportedTokensStore);
+
+  // Check if we need to fetch (if forced, if no tokens, or if cache is older than 1 hour)
+  const cacheExpired = !currentState.lastFetched ||
+    (Date.now() - currentState.lastFetched > 3600000); // 1 hour cache
+
+  if (!force && !cacheExpired && currentState.tokens.length > 0) {
+    return currentState.tokens;
+  }
+
+  try {
+    // Update loading state
+    supportedTokensStore.update(state => ({ ...state, isLoading: true, error: null }));
+
+    // Fetch supported currencies from the API
+    const response = await ccpaymentService.getSupportedCurrencies();
+
+    if (response && response.success && response.data && response.data.coins) {
+      // Extract supported tokens from the API response
+      const supportedTokens = response.data.coins.map(coin => coin.symbol.toUpperCase());
+
+      // Update the store with the fetched tokens
+      supportedTokensStore.update(state => ({
+        ...state,
+        tokens: supportedTokens,
+        lastFetched: Date.now(),
+        isLoading: false
+      }));
+
+      // Also update the coin list cache for other functions
+      coinListCache = response.data.coins;
+
+      return supportedTokens;
+    } else {
+      throw new Error('Invalid API response format');
+    }
+  } catch (error) {
+    console.error('Error fetching supported tokens:', error);
+
+    // Update store with error and fallback to default tokens
+    supportedTokensStore.update(state => ({
+      ...state,
+      error: error.message || 'Failed to fetch supported tokens',
+      isLoading: false,
+      // Keep existing tokens if available, otherwise use defaults
+      tokens: state.tokens.length > 0 ? state.tokens : DEFAULT_TOKENS
+    }));
+
+    // Return current tokens or defaults
+    return get(supportedTokensStore).tokens;
+  }
+};
+
+/**
  * Get supported tokens for CCPayment
+ * @param {boolean} [refresh=false] - Force refresh from server
  * @returns {Array<string>} - Array of supported token symbols
  */
-export const getSupportedTokens = () => {
-  return SUPPORTED_TOKENS;
+export const getSupportedTokens = (refresh = false) => {
+  const currentState = get(supportedTokensStore);
+
+  // If we need to refresh or don't have tokens yet, trigger a fetch
+  if (refresh || currentState.tokens.length === 0) {
+    // Start fetch in background
+    fetchSupportedTokens(refresh);
+  }
+
+  // Return current tokens from store or defaults if empty
+  return currentState.tokens.length > 0 ? currentState.tokens : DEFAULT_TOKENS;
 };
 
 /**
@@ -105,7 +184,10 @@ export const getTokensWithData = (wallet) => {
 
   // If wallet is provided, use its data
   if (wallet && Array.isArray(wallet)) {
-    return SUPPORTED_TOKENS.map(symbol => {
+    // Get supported tokens
+    const supportedTokens = getSupportedTokens();
+
+    return supportedTokens.map(symbol => {
       const walletToken = wallet.find(t => t.coin_name.toUpperCase() === symbol.toUpperCase());
       if (walletToken) {
         return {
@@ -172,7 +254,9 @@ export default {
   getCCPaymentService,
   getDefaultExchangeRate,
   getSupportedTokens,
+  fetchSupportedTokens,
   getTokensWithData,
   getTokenImage,
-  getTokenName
+  getTokenName,
+  supportedTokensStore
 };

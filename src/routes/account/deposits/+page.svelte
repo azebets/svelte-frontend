@@ -279,17 +279,51 @@
     .filter-group label {
         font-size: 14px;
         margin-bottom: 8px;
-        color: #b1b6c6;
+        color: #ffffff; /* Brighter color for better contrast */
+        font-weight: 500; /* Make it slightly bolder */
+        letter-spacing: 0.5px; /* Improve readability */
     }
 
     .filter-group select,
     .filter-group input {
         padding: 8px 12px;
         border-radius: 4px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background-color: #2a2f45; /* Darker background for better contrast */
         color: #fff;
         font-size: 14px;
+    }
+
+    /* Custom styling for select dropdown */
+    .filter-group select {
+        appearance: none; /* Remove default styling */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        background-size: 16px;
+        padding-right: 32px; /* Make room for the dropdown arrow */
+    }
+
+    /* Style for dropdown options */
+    .filter-group select option {
+        background-color: #1a1d2a;
+        color: #fff;
+    }
+
+    /* Add a hover effect for better UX */
+    .filter-group select:hover,
+    .filter-group input:hover {
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Add focus styles for accessibility */
+    .filter-group select:focus,
+    .filter-group input:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
     }
 
     .table-container {

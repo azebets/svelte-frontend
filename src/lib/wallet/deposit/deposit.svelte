@@ -3,7 +3,7 @@
     import { user } from "$lib/store/profile";
     import Details from "./details.svelte";
     import { goto } from "$app/navigation"
-    import { getCoinIdFromSymbol, getTokensWithData, getSupportedTokens } from "$lib/utils/ccpayment";
+    import { getCoinIdFromSymbol, getTokensWithData, getSupportedTokens, fetchSupportedTokens, supportedTokensStore } from "$lib/utils/ccpayment";
     import { ccpaymentService } from '$lib/services/ccpayment';
     import { ccpaymentCoins, selectedCoin, ccpaymentLoading, ccpaymentError } from '$lib/store/ccpayment';
     import { toast } from 'svelte-sonner';
@@ -17,21 +17,10 @@
     $: warning = false
     $: activeCoin = ""
     $: coinId = null
-
-    // Get cryptocurrency tokens for CCPayment
-    const cryptoTokens = [
-        { symbol: 'BTC', name: 'Bitcoin' },
-        { symbol: 'ETH', name: 'Ethereum' },
-        { symbol: 'LTC', name: 'Litecoin' },
-        { symbol: 'SOL', name: 'Solana' },
-        { symbol: 'USDT', name: 'Tether' },
-        { symbol: 'USDC', name: 'USD Coin' },
-        { symbol: 'TRX', name: 'TRON' },
-        { symbol: 'TETH', name: 'Test Ethereum' }
-    ];
+    $: supportedTokensData = $supportedTokensStore
 
     // Get our supported tokens with data from wallet if available
-    const supportedTokens = getTokensWithData(wallet);
+    $: supportedTokens = getTokensWithData(wallet);
 
     $:{
         if(currency){
@@ -57,6 +46,9 @@
     }
 
     onMount(async () => {
+        // Fetch supported tokens from the server
+        await fetchSupportedTokens(true);
+
         if (provider === 'ccpayment') {
             try {
                 ccpaymentLoading.update(state => ({ ...state, coins: true }));
@@ -68,7 +60,7 @@
                     // Filter coins to match our supported tokens and that can be deposited
                     const depositableCoins = response.data.coins.filter(coin => {
                         // Check if the coin is in our supported list and has at least one network that supports deposits
-                        return supportedTokens.some(token => token.symbol.toUpperCase() === coin.symbol.toUpperCase()) &&
+                        return supportedTokensData.tokens.some(symbol => symbol.toUpperCase() === coin.symbol.toUpperCase()) &&
                             Object.values(coin.networks).some(network => network.canDeposit);
                     });
 
@@ -76,15 +68,19 @@
                     // we'll create placeholder objects for them
                     const allCoins = [...depositableCoins];
 
-                    for (const token of supportedTokens) {
-                        if (!depositableCoins.some(coin => coin.symbol.toUpperCase() === token.symbol.toUpperCase())) {
+                    for (const symbol of supportedTokensData.tokens) {
+                        if (!depositableCoins.some(coin => coin.symbol.toUpperCase() === symbol.toUpperCase())) {
+                            // Find token data in our supportedTokens array
+                            const token = supportedTokens.find(t => t.symbol.toUpperCase() === symbol.toUpperCase());
+                            if (!token) continue;
+
                             // Get coin ID from our utility function
-                            const coinId = await getCoinIdFromSymbol(token.symbol);
+                            const coinId = await getCoinIdFromSymbol(symbol);
 
                             // Create a placeholder coin object
                             allCoins.push({
                                 coinId: parseInt(coinId),
-                                symbol: token.symbol,
+                                symbol: symbol,
                                 coinFullName: token.name,
                                 logoUrl: token.image,
                                 networks: {
@@ -154,14 +150,9 @@
         }
     });
 
-    const handleOpenDetails = ((e)=>{
-        // TEMPORARILY DISABLED FOR TESTING
-        // if(!$user?.is_verified) {
-        //     warning = true
-        // }
-        // else{
-            goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=deposit&cur=${(e).toLowerCase()}`)
-        // }
+    // Function to handle deposit option selection
+    const handleDepositOptionSelect = ((currency) => {
+        goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=deposit&cur=${currency.toLowerCase()}`)
     })
 
     const handleCryptoSelect = async (symbol) => {
@@ -181,61 +172,37 @@
         goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=deposit&provider=ccpayment&coinId=${coin.coinId}&symbol=${coin.symbol}`);
     };
 
-    // Get token image from wallet
-    const getTokenImage = (symbol) => {
-        // Define default images for each token
-        const defaultImages = {
-            'BTC': 'https://assets.coingecko.com/coins/images/1/standard/bitcoin.png?1696501400',
-            'ETH': 'https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628',
-            'TETH': 'https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628',
-            'LTC': 'https://assets.coingecko.com/coins/images/2/standard/litecoin.png?1696501400',
-            'SOL': 'https://s2.coinmarketcap.com/static/img/coins/64x64/16116.png',
-            'USDT': 'https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663',
-            'USDC': 'https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389',
-            'TRX': 'https://assets.coingecko.com/coins/images/1094/standard/tron-logo.png?1696502193'
-        };
 
-        // Try to find the token in the wallet array
-        const token = wallet.find(t => t.coin_name.toUpperCase() === symbol.toUpperCase());
-
-        // Return the token image if found, otherwise use the default image for that symbol
-        return token ? token.coin_image : (defaultImages[symbol.toUpperCase()] || defaultImages['BTC']);
-    }
 </script>
 
 
 {#if !currency && !provider}
     <div>
         <h1 class="css-rhqiop">Deposit options</h1>
-        <div class="css-1d5ntxf">
-            <!-- Cryptocurrency options -->
-            {#each cryptoTokens as token}
-                <button on:click={() => handleCryptoSelect(token.symbol)} class="css-1yhwmxl enabled">
-                    <div class="css-tt41bp">
-                        <img src="{getTokenImage(token.symbol)}" alt="{token.symbol}" size="32" class="css-bzek24">
-                    </div>
-                    <div class="css-1v92hyt">
-                        {token.name}
-                        <div class="css-h7b5qw">{token.symbol}</div>
-                    </div>
-                </button>
-            {/each}
 
-            <!-- <div class="css-deposit-method-divider">OR</div> -->
-
-            <!-- Fiat options -->
-            {#each wallet as wa}
-                <!-- <button on:click={()=> handleOpenDetails(wa.coin_name)} disabled={wa.disabled} class="css-1yhwmxl {wa.disabled ? "disabled" : "enabled"}">
-                    <div class="css-tt41bp">
-                        <img src="{wa.coin_image}" alt="" size="32" class="css-bzek24">
-                    </div>
-                    <div class="css-1v92hyt">
-                        {wa.fullname}
-                        <div class="css-h7b5qw">{wa.coin_name}</div>
-                    </div>
-                </button> -->
-            {/each}
-        </div>
+        {#if supportedTokensData.isLoading}
+            <div class="css-loading">Loading supported cryptocurrencies...</div>
+        {:else if supportedTokensData.error}
+            <div class="css-error">
+                <p>Error loading cryptocurrencies</p>
+                <button class="css-vmbe4r" on:click={() => fetchSupportedTokens(true)}>Retry</button>
+            </div>
+        {:else}
+            <div class="css-1d5ntxf">
+                <!-- Cryptocurrency options -->
+                {#each supportedTokens as token}
+                    <button on:click={() => handleCryptoSelect(token.symbol)} class="css-1yhwmxl enabled">
+                        <div class="css-tt41bp">
+                            <img src="{token.image}" alt="{token.symbol}" size="32" class="css-bzek24">
+                        </div>
+                        <div class="css-1v92hyt">
+                            {token.name}
+                            <div class="css-h7b5qw">{token.symbol}</div>
+                        </div>
+                    </button>
+                {/each}
+            </div>
+        {/if}
     </div>
 {/if}
 
@@ -281,31 +248,6 @@
 {/if}
 
 <style>
-    .css-deposit-method-divider {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        color: rgb(177, 182, 198);
-        font-size: 14px;
-        margin: 16px 0;
-        width: 100%;
-    }
-
-    .css-deposit-method-divider::before,
-    .css-deposit-method-divider::after {
-        content: '';
-        flex: 1;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .css-deposit-method-divider::before {
-        margin-right: 16px;
-    }
-
-    .css-deposit-method-divider::after {
-        margin-left: 16px;
-    }
-
     .css-loading {
         display: flex;
         justify-content: center;
