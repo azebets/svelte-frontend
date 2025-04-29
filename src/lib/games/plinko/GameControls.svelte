@@ -23,7 +23,7 @@
     numberOfBets: 0,
   };
   $: coinImage =
-    'https://res.cloudinary.com/dxwhz3r81/image/upload/v1697828376/ppf_logo_ntrqwg.png';
+    '/assets/coin.png';
   $: coinName = 'Fun Coupons';
   $: riskValue = 'Low';
   $: rowValue = 8;
@@ -248,7 +248,7 @@
                 : currentAmount}
             /><img alt=""
               class="coin-icon"
-              src={canViewInFiat ? '/coin/USD.black.png' : coinImage}
+              src={canViewInFiat ? '/assets/coin.png' : coinImage}
             />
             <div class="sc-kDTinF bswIvI button-group">
               <button  disabled={betting || inputDisabled}
@@ -320,12 +320,12 @@
               >
             </div>
           </div>
-          {#if !(coinName === 'Fun Coupons' || coinName === 'SOL')}
+          <!-- {#if !(coinName === 'Fun Coupons' || coinName === 'SOL')}
             <span
               style="display: block; padding: 10px; color: #fd4d4d; font-size: 0.8rem;"
               >Select Fun Coupons or SOL</span
             >
-          {/if}
+          {/if} -->
         </div>
         <div
           class="sc-ezbkAF gcQjQT input {betting || inputDisabled
@@ -421,7 +421,7 @@
             /><img
               alt=""
               class="coin-icon"
-              src={canViewInFiat ? '/coin/USD.black.png' : coinImage}
+              src={canViewInFiat ? '/assets/coin.png' : coinImage}
             />
             <div class="sc-kDTinF bswIvI button-group">
               <button
