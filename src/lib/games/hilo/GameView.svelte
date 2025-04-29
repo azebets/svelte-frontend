@@ -5,9 +5,9 @@
   import { screen } from "$lib/store/screen";
   import { onMount, createEventDispatcher, onDestroy } from "svelte";
   import lottie from "lottie-web";
-  import Point from "./components/point.svelte";
-  import SSuit from "./components/ssuit.svelte";
-  import Suit from "./components/suit.svelte";
+  // import Point from "./components/point.svelte";
+  // import SSuit from "./components/ssuit.svelte";
+  // import Suit from "./components/suit.svelte";
   import useDeck from "./hooks/deck";
   import useLiveStats from "$lib/hook/livestats";
   import useFormatter from "$lib/hook/formatter";
@@ -168,7 +168,7 @@
       </div>
     </div>
   </div>
-  <div class="sc-hcupDf dqwCNK game-box sc-iLOkMM iYxCeC">
+  <!-- <div class="sc-hcupDf dqwCNK game-box sc-iLOkMM iYxCeC">
     <div class="sc-gDGHff fFDbEu hilo-graph">
       <div class="hilo-graph-wrap">
         <div class="top-box">
@@ -434,7 +434,7 @@
         ></path></g
       ></svg
     >
-  </div>
+  </div> -->
 </div>
 
 <style>
