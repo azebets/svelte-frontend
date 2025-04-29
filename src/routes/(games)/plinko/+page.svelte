@@ -28,13 +28,14 @@
     $plinkoGame?.deactivate();
     plinkoGame.set(null);
   });
+
 </script>
 
-<div id="game-plinko" class="sc-haTkiu lmWKWf game-style0 sc-cBIieI ikZPEu">
+<div id="game-plinko" class="sc-haTkiu lmWKWf { $newScreen > 1200 ? "game-style0" : "game-style1"}  sc-cBIieI ikZPEu">
   <div class="game-area">
-    <div class="game-main {$newScreen < 900 ? 'mobile-view' : ''}">
-      <GameControls />
+    <div class="game-main {$newScreen > 1200 ? 'mobile-view' : ''}">
       <GameView />
+      <GameControls />
       <GameActions />
     </div>
   </div>

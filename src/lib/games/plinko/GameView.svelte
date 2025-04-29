@@ -74,7 +74,7 @@
     <div bind:this={betsContainer} class="recent-list-wrap">
       <div
         class="recent-list"
-        style="width: 900px; transform: translate(0%, 0px);"
+        style=""
       >
         {#each gameHistory as game, index (`${index}_${game.betId}`)}
           <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -131,7 +131,7 @@
 <style>
   .fIoiVG .empty-item {
     display: flex;
-    width: 90%;
+    width: 100%;
     height: 100%;
     color: var(--text-6);
     background-color: rgba(122, 128, 140, 0.15);
@@ -140,7 +140,7 @@
     -webkit-box-pack: center;
     justify-content: center;
     font-weight: bold;
-    border-radius: 1.375rem;
+    /* border-radius: 1.375rem; */
   }
 
   .fIoiVG .empty-item > p {
@@ -155,21 +155,14 @@
     display: flex;
     flex-direction: column;
   }
-  .fIoiVG {
-    display: flex;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    height: 2.75rem;
-    margin-top: 0.625rem;
-    margin-bottom: 0.625rem;
-  }
+
   .fIoiVG .recent-list-wrap {
     flex: 1 1 auto;
     height: 100%;
     margin: 0px 1.5rem;
     overflow: hidden;
     position: relative;
-    border-radius: 1.375rem;
+    /* border-radius: 1.375rem; */
   }
   .fIoiVG .recent-list {
     position: absolute;

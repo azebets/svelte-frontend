@@ -182,34 +182,28 @@
   });
 </script>
 
-<div id="Plinko-control-0" class="sc-hLVXRe cYiOHZ game-control style0 {$screen <= 900
+<div id="Plinko-control-0" class="sc-hLVXRe cYiOHZ game-control  {$screen < 1200
   ? 'mobile-view'
-  : ''}">
+  : 'style0'}">
   <div
     class="sc-iwjdpV {betting || autoBetting
       ? 'eLa-Dxl'
       : 'ikWSlH'}  radio game-control-switch"
   >
-    <button
+    <!-- <button
       on:click={() => !(betting || autoBetting) && game.setControlIdx(1)}
-      class={currentTab === 1 ? 'is-active' : ''}
-      ><div class="label">Manual</div></button
-    >
+      class={currentTab === 1 ? 'is-active' : ''}><div class="label">Manual</div></button>
     <button
       on:click={() => !(betting || autoBetting) && game.setControlIdx(2)}
       class={currentTab === 2 ? 'is-active' : ''}
-      ><div class="label">Auto</div></button
-    >
+      ><div class="label">Auto</div></button> -->
   </div>
   <div class="game-control-panel">
     {#if currentTab === 1}
       <div class="sc-gFSQbh krvdBS bet-control-manual">
         <div
           class="sc-ezbkAF gcQjQT input sc-fvxzrP gOLODp sc-gsFzgR fCSgTW game-coininput {betting ||
-          inputDisabled
-            ? 'disabled'
-            : ''}"
-        >
+          inputDisabled  ? 'disabled': ''}">
           <div class="input-label">
             <div class="sc-hmvnCu efWjNZ label">
               <div>Amount</div>
@@ -217,8 +211,7 @@
                 <svg
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                   class="sc-gsDKAQ hxODWG icon"
-                  ><use xlink:href="#icon_Inform"></use></svg
-                >
+                  ><use xlink:href="#icon_Inform"></use></svg>
                 <div class="tip">
                   <span class="tit">Max Profit:&nbsp;</span>
                   <div class="sc-Galmp erPQzq coin notranslate">
@@ -253,16 +246,13 @@
                     .amountToFiat(currentAmount)
                     .toFixed(4)
                 : currentAmount}
-            /><img
-              alt=""
+            /><img alt=""
               class="coin-icon"
               src={canViewInFiat ? '/coin/USD.black.png' : coinImage}
             />
             <div class="sc-kDTinF bswIvI button-group">
-              <button
-                disabled={betting || inputDisabled}
-                on:click={handleSetAmount('/')}>/2</button
-              >
+              <button  disabled={betting || inputDisabled}
+                on:click={handleSetAmount('/')}>/2</button>
               <button
                 disabled={betting || inputDisabled}
                 on:click={handleSetAmount('*')}>x2</button
@@ -618,6 +608,9 @@
 </div>
 
 <style>
+  #Plinko-control-0.mobile-view{
+    padding: 15px;
+  }
   .cYiOHZ.style0:not(.mobile-view) {
     position: absolute;
     left: 0px;
@@ -690,6 +683,7 @@
     .bet-control-manual {
       display: flex;
       flex-direction: column;
+      padding: 15px;
     }
     .bet-button {
       order: -3;
@@ -770,27 +764,6 @@
   .eLa-Dxl {
     display: flex;
     opacity: 0.5;
-  }
-  .cYiOHZ.style0 .game-control-switch > button.is-active {
-    background-color: rgba(49, 52, 60, 0.4);
-  }
-
-  .cYiOHZ.style0 .game-control-switch > button {
-    height: 2.75rem;
-    line-height: 2.75rem;
-    text-align: center;
-    border-radius: 1.375rem;
-  }
-
-  .cYiOHZ .game-control-switch > button.is-active {
-    color: rgb(245, 246, 247);
-    font-weight: bold;
-  }
-
-  .cYiOHZ .game-control-switch > button {
-    flex: 1 1 0%;
-    cursor: pointer;
-    color: rgba(153, 164, 176, 0.6);
   }
   .game-control-panel {
     height: 1%;
