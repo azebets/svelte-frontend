@@ -1,9 +1,9 @@
 <script>
     import { browser } from "$app/environment";
     import { newScreen } from "$lib/store/screen";
-    import GameControls from "$lib/games/hilo/GameControls.svelte";
-    import GameActions from "$lib/games/hilo/GameActions.svelte";
-    import GameView from "$lib/games/hilo/GameView.svelte";
+    // import GameControls from "$lib/games/hilo/GameControls.svelte";
+    // import GameActions from "$lib/games/hilo/GameActions.svelte";
+    // import GameView from "$lib/games/hilo/GameView.svelte";
     import AllBets from "$lib/games/hilo/AllBets.svelte";
     import MyBets from "$lib/games/hilo/MyBets.svelte";
     import { soundManager, soundSettings } from "$lib/games/hilo/store";
@@ -52,6 +52,12 @@
           token_img,
           payout,
         });
+        // Add a check to ensure the game state is valid before proceeding
+        if (!$hilo_game || !$hilo_game.bet_id) {
+          console.error('Invalid game state. Refreshing the page...');
+          window.location.reload();
+          return;
+        }
       }
     };
   
@@ -80,13 +86,13 @@
         soundManager.set(
           new SM({ hilo: { enabled: settings.music } }, settings.soundFx)
         );
-  
+
       }
     });
     onDestroy(() => {
       $soundManager?.stop();
     });
-    $: console.log($newScreen)
+
   </script>
   
 
@@ -98,13 +104,13 @@
     <div class="game-area">
        <div class="game-main {$newScreen > 1200 ? 'mobile-view' : ''}">
       
-        <GameView on:hiloNextRound={handleNextRound} />
+        <!-- <GameView on:hiloNextRound={handleNextRound} />
         <GameControls
         on:hiloNextRound={handleNextRound}
         on:hiloCashout={handleCashOut}
         on:hiloBet={handleBet}
       />
-        <GameActions />
+        <GameActions /> -->
       </div>
     </div>
     <div class="sc-cxpSdN kQfmQV tabs game-tabs len-2">
