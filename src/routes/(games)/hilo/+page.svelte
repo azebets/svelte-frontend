@@ -1,7 +1,7 @@
 <script>
     import { browser } from "$app/environment";
     import { newScreen } from "$lib/store/screen";
-    // import GameControls from "$lib/games/hilo/GameControls.svelte";
+    import GameControls from "$lib/games/hilo/GameControls.svelte";
     import GameActions from "$lib/games/hilo/GameActions.svelte";
     // import GameView from "$lib/games/hilo/GameView.svelte";
     import AllBets from "$lib/games/hilo/AllBets.svelte";
@@ -104,12 +104,12 @@
     <div class="game-area">
        <div class="game-main {$newScreen > 1200 ? 'mobile-view' : ''}">
       
-        <!-- <GameView on:hiloNextRound={handleNextRound} />
+        <!-- <GameView on:hiloNextRound={handleNextRound} /> -->
         <GameControls
         on:hiloNextRound={handleNextRound}
         on:hiloCashout={handleCashOut}
         on:hiloBet={handleBet}
-      /> -->
+      /> 
         <GameActions /> 
       </div>
     </div>
