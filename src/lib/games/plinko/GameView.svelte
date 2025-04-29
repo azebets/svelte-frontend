@@ -8,7 +8,7 @@
   import { plinkoGame } from './store';
   import GameInfoDialog from './dialogs/GameInfoDialog.svelte';
   import Plinko from './logics/Plinko';
-  import { onMount } from 'svelte';
+  import { screen } from "$lib/store/screen";
 
   $: gameHistory = [];
   $: dialogData = null;
@@ -87,7 +87,7 @@
               };
             }}
             class="recent-item"
-            style="width: 11.1111%;"
+            style="width: {$screen > 800 ? "11.1111" : "20.1111"}%;"
           >
             <div class="item-wrap {game.payout >= 1 ? 'is-win' : 'is-lose'}">
               {game.odds.toFixed(2)}x
