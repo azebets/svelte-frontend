@@ -258,7 +258,7 @@
 
 </script>
 
-<div id="Hilo-control-0" class="sc-hLVXRe cYiOHZ game-control style0  {$newScreen < 1000 ? "mobile-view" : ""}">
+<div id="Hilo-control-0" class="sc-hLVXRe cYiOHZ game-control   {$newScreen < 1200 ? "mobile-view" : "style0"}">
   <div class="game-control-panel">
     <div class="sc-fSDTwv kqpylJ">
       <div class="sc-fUQcsx kqrzPs betting">
@@ -641,7 +641,7 @@
     display: flex;
     flex-direction: column;
   }
-  @media screen and (max-width: 621px) {
+  /* @media screen and (max-width: 621px) {
     .kqpylJ .cashout-btn,
     .kqpylJ .bet-button {
       order: -3;
@@ -652,7 +652,7 @@
     .kqpylJ .skip-btn {
       order: -1;
     }
-  }
+  } */
   .gcQjQT .input-label {
     display: flex;
     -webkit-box-align: center;

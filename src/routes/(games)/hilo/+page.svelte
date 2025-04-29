@@ -1,6 +1,6 @@
 <script>
     import { browser } from "$app/environment";
-    import { screen } from "$lib/store/screen";
+    import { newScreen } from "$lib/store/screen";
     import GameControls from "$lib/games/hilo/GameControls.svelte";
     import GameActions from "$lib/games/hilo/GameActions.svelte";
     import GameView from "$lib/games/hilo/GameView.svelte";
@@ -15,7 +15,6 @@
       processingRequest,
       hotkeysEnabled,
     } from "$lib/games/hilo/store";
-    import { default_Wallet } from "$lib/store/coins";
     import { onDestroy, onMount } from "svelte";
     $: currentTab = 1;
   
@@ -87,22 +86,24 @@
     onDestroy(() => {
       $soundManager?.stop();
     });
+    $: console.log($newScreen)
   </script>
   
 
   <div
     id="game-Hilo"
-    class="sc-haTkiu lmWKWf game-style0 sc-hKumaY hmdAmi"
+    class="sc-haTkiu lmWKWf {$newScreen > 1200 ? "game-style0" : "game-style1"} sc-hKumaY hmdAmi"
     style="opacity: 1; transform: none;"
   >
     <div class="game-area">
-       <div class="game-main {$screen < 900 ? 'mobile-view' : ''}">
-       <GameControls
-          on:hiloNextRound={handleNextRound}
-          on:hiloCashout={handleCashOut}
-          on:hiloBet={handleBet}
-        />
+       <div class="game-main {$newScreen > 1200 ? 'mobile-view' : ''}">
+      
         <GameView on:hiloNextRound={handleNextRound} />
+        <GameControls
+        on:hiloNextRound={handleNextRound}
+        on:hiloCashout={handleCashOut}
+        on:hiloBet={handleBet}
+      />
         <GameActions />
       </div>
     </div>
@@ -153,201 +154,4 @@
       >
     </div>
   </div> 
-  
-  <style>
-    .lmWKWf.game-style0 .game-area {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .lmWKWf.game-style0 .game-main:not(.mobile-view) {
-      padding-left: 330px;
-    }
-    .lmWKWf.game-style0 .game-main {
-      min-height: 47.5rem;
-    }
-  
-    .lmWKWf.game-style0 .game-main {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 0%;
-      overflow: hidden;
-    }
-    .hmdAmi .game-main {
-      min-height: 47.5rem;
-    }
-    .lmWKWf .game-main {
-      position: relative;
-      border-radius: 1.25rem;
-      background-color: rgb(23, 24, 27);
-    }
-    .lmWKWf.game-style0 {
-      max-width: 1368px;
-      margin: 0px auto;
-      padding: 1.25rem 0.625rem;
-    }
-  
-    .lmWKWf {
-      min-height: 90vh;
-    }
-    .lmWKWf .game-tabs {
-      margin-top: 2.5rem;
-    }
-    .lmWKWf .game-tabs .tabs-navs {
-      margin-bottom: 0.75rem;
-      margin-left: 0.625rem;
-      display: inline-flex;
-    }
-  
-    .lmWKWf .game-tabs .tabs-navs .tabs-nav {
-      width: 5.625rem;
-    }
-  
-    .kQfmQV .tabs-nav.is-active {
-      color: rgb(245, 246, 247);
-      font-weight: bold;
-    }
-    .kQfmQV .tabs-nav {
-      display: flex;
-      -webkit-box-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      justify-content: center;
-      flex: 1 1 0%;
-      height: 100%;
-      cursor: pointer;
-      white-space: nowrap;
-      width: 100%;
-      z-index: 1;
-    }
-    .kQfmQV .tabs-navs {
-      display: flex;
-      -webkit-box-align: center;
-      align-items: center;
-      height: 2.25rem;
-      position: relative;
-      border-radius: 1.125rem;
-      background-color: rgba(49, 52, 60, 0.7);
-    }
-    .kQfmQV .tabs-navs .bg.is-reverse {
-      transition:
-        left 0.2s ease-out 0s,
-        right 0.3s ease-out 0s;
-    }
-    .kQfmQV .tabs-navs .bg {
-      border-radius: 1.125rem;
-      background-image: linear-gradient(
-        to left,
-        rgb(85, 89, 102),
-        rgb(85, 89, 102),
-        rgb(88, 174, 20)
-      );
-      opacity: 0.4;
-      height: 100%;
-      position: absolute;
-      left: 0px;
-      top: 0px;
-      transition:
-        right 0.2s ease-out 0s,
-        left 0.3s ease-out 0s;
-      transform: translateZ(0px);
-      box-shadow: rgba(0, 0, 0, 0.14) 0px 0px 0.3125rem;
-    }
-    .lmWKWf .game-tabs .tabs-view {
-      background-color: rgb(30, 32, 36);
-      border-radius: 1.25rem;
-      padding: 1px 0px;
-    }
-    .kQfmQV .tabs-view {
-      position: relative;
-    }
-    .cFxmZX {
-      width: 100%;
-      border-radius: 1.25rem;
-      background-color: rgb(30, 32, 36);
-      padding: 1.5rem 1.5rem 2rem;
-      margin-top: 2rem;
-    }
-    .cFxmZX .intro-title {
-      min-height: 5rem;
-      display: flex;
-      -webkit-box-align: center;
-      align-items: center;
-    }
-    @media screen and (max-width: 621px) {
-      .cFxmZX {
-        margin: 1.25rem 0px 0px !important;
-        width: auto !important;
-        padding: 1rem 0.75rem 1.5rem !important;
-      }
-      .cFxmZX .intro-title {
-        flex-wrap: wrap !important;
-        height: auto !important;
-      }
-      .cFxmZX .intro-title .intro-tags > p {
-        margin: 0px 0.3125rem 0.3125rem 0px !important;
-        white-space: nowrap !important;
-        padding: 0.375rem 0.875rem !important;
-        line-height: 1.25rem !important;
-        height: 2rem !important;
-      }
-      .cFxmZX .description {
-        margin-top: 0.625rem !important;
-        line-height: 1.25rem !important;
-        padding-left: 0.25rem !important;
-      }
-      .cFxmZX .intro-title > p {
-        width: 100% !important;
-        margin: 0px 0px 1rem !important;
-        line-height: 1.25rem !important;
-        padding: 0px 0.625rem !important;
-      }
-      .cFxmZX .intro-title .intro-tags {
-        margin-left: 0px !important;
-        flex-wrap: wrap !important;
-      }
-    }
-    .cFxmZX .intro-title > p {
-      font-size: 1rem;
-      color: rgb(245, 246, 247);
-      font-weight: 600;
-      margin: 0px;
-      white-space: nowrap;
-    }
-    .cFxmZX .intro-title .intro-tags {
-      margin-left: 2.5rem;
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .cFxmZX .intro-title .intro-tags > p {
-      margin: 0px 1.125rem 0.3125rem 0px;
-      padding: 0.5rem 1.25rem;
-      border-radius: 1.125rem;
-      background-color: rgb(43, 47, 54);
-    }
-    .cFxmZX .description {
-      margin-top: 0.75rem;
-      line-height: 1.25rem;
-    }
-    .cFxmZX .intro-detail {
-      width: 6.75rem;
-      height: 2.5rem;
-      margin-top: 2rem;
-      border-radius: 1.25rem;
-      background-color: rgba(49, 52, 60, 0.6);
-      display: flex;
-      -webkit-box-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      justify-content: center;
-    }
-    .cFxmZX .intro-detail > svg {
-      font-size: 0.5625rem;
-      margin-left: 1.125rem;
-    }
-    .hxODWG {
-      width: 1.4em;
-      height: 1.4em;
-      fill: rgba(153, 164, 176, 0.6);
-    }
-  </style>
   
