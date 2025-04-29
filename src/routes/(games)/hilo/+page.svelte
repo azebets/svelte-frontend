@@ -2,7 +2,7 @@
     import { browser } from "$app/environment";
     import { newScreen } from "$lib/store/screen";
     // import GameControls from "$lib/games/hilo/GameControls.svelte";
-    // import GameActions from "$lib/games/hilo/GameActions.svelte";
+    import GameActions from "$lib/games/hilo/GameActions.svelte";
     // import GameView from "$lib/games/hilo/GameView.svelte";
     import AllBets from "$lib/games/hilo/AllBets.svelte";
     import MyBets from "$lib/games/hilo/MyBets.svelte";
@@ -109,8 +109,8 @@
         on:hiloNextRound={handleNextRound}
         on:hiloCashout={handleCashOut}
         on:hiloBet={handleBet}
-      />
-        <GameActions /> -->
+      /> -->
+        <GameActions /> 
       </div>
     </div>
     <div class="sc-cxpSdN kQfmQV tabs game-tabs len-2">
