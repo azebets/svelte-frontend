@@ -1,5 +1,5 @@
 <script>
-	const image = new URL('$lib/images/rx-casino-logo.png', import.meta.url).href
+	const image = "/assets/rx-casino-logo.png"
 </script>
 
 

@@ -26,7 +26,7 @@ $: tab = 0
                 <a href="/">
                     <div class="css-3v2xup" size="10">
                         <div size="15" class="css-1holazi">
-                        <img src="https://rollbit.com/static/Icon%205%20(platinum)-BAlv4mS-.png" alt="" scale="1" class="css-1ago99h"></div>
+                        <img src="/assets/Roulette9TheClub.webp" alt="" scale="1" class="css-1ago99h"></div>
                         <div class="css-o3tivt" style="color: white; font-weight: 500;">MMHKB02</div>
                     </div>
                     <div class="css-1ypeake">$106.90</div>

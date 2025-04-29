@@ -262,9 +262,9 @@
                     <tr class="css-1k5q1yl">
                         <td class="css-1oa65f7">
                             <div>
-                                <a href="https://rollbit.com/game-images/pragmaticexternal_CosmicCash.webp">
+                                <a href="/assets/Roulette9TheClub.webp">
                                     <div class="css-s92gka">
-                                        <img class="css-18g7uso" src="https://cdn.softswiss.net/i/s4/pragmaticexternal/Roulette9TheClub.webp" alt="Roulette 9 – The Club">
+                                        <img class="css-18g7uso" src="/assets/Roulette9TheClub.webp" alt="Roulette 9 – The Club">
                                     </div>
                                 </a>
                                 <a href="/" style="color: rgb(255, 255, 255);">Roulette 9 – The Club</a>
@@ -274,7 +274,7 @@
                         <td class="css-1b3rv0c">
                                 <div>
                                     <div class="css-15m7f2a" size="14"><div size="21" class="css-1f0zcjv">
-                                        <img src="https://rollbit.com/static/Icon%204%20(platinum)-28ZBS5o7.png" alt="" scale="0.72" class="css-10qm6dq">
+                                        <img src="/assets/Roulette9TheClub.webp" alt="" scale="0.72" class="css-10qm6dq">
                                     </div>
                                     <div class="css-o3tivt" style="color: white; font-weight: 500;">Ntavas</div>
                                 </div>

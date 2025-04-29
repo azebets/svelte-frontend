@@ -1,7 +1,7 @@
 <script>
 import { screen } from "$lib/store/screen";
 import "../styles/footer.css"
-const logo = new URL('$lib/images/rx-casino-logo.png', import.meta.url).href;
+const logo = "/assets/rx-casino-logo.png"
 
 </script>
 

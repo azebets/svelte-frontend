@@ -138,7 +138,7 @@ function clickOutsde(element, callbackFucntion){
                 <!-- <div class="css-1deqcht">
                     <div class="css-1xldb71" size="13">
                         <div size="19.5" class="css-bdgncd">
-                            <img src="https://rollbit.com/static/Icon%203%20(gold)-Cz9Y9AJt.png" alt="" scale="1" class="css-1ago99h">
+                            <img src="/assets/Roulette9TheClub.webp" alt="" scale="1" class="css-1ago99h">
                         </div>
                         <div class="css-o3tivt" style="color: white; font-weight: 600;">SWEETBONANZA🍭:</div>
                     </div>
