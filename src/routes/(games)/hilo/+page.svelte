@@ -103,6 +103,7 @@
   >
     <div class="game-area">
        <div class="game-main {$newScreen > 1200 ? 'mobile-view' : ''}">
+      
         <GameView on:hiloNextRound={handleNextRound} />
         <GameControls
         on:hiloNextRound={handleNextRound}
