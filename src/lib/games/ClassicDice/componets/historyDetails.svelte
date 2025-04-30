@@ -11,7 +11,7 @@ $: DgII
 import { createEventDispatcher} from 'svelte';
 import Seedsettings from './share/seedsettings.svelte';
 import Loader from "$lib/loader.svelte";
-$: demoWallet = "Fun Coupons"
+$: demoWallet = "Fun"
 $: deatls = {}
 let is_loading = false
 onMount(async()=>{

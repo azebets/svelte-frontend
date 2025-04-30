@@ -2,7 +2,7 @@
 import { mine_history, HandleSelectedMine, minesStore,
     HandleNextTime, HandlemineGems,  HandleMineCount,
     HandleGame_id, Cashout, HandleHas_won,
-    betDetails,  HandleIsAlive, HandleWinning} from "$lib/games/mines/store/index"
+    betDetails,  HandleIsAlive, HandleWinning } from "$lib/games/mines/store/index"
 import { soundHandler} from "$lib/games/mines/store/index";
 import { MinesHistory } from "$lib/games/mines/hook/diceHistory";
 const { historyMines } = MinesHistory()

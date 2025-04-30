@@ -2,6 +2,7 @@
 import { dicegameplays } from "../store/index"
 import Empty from "../../../empty.svelte";
 import HistoryDetails from "./historyDetails.svelte";
+import { app } from '$lib/store/app';
 $: newItem = []
 
  $: {
@@ -78,7 +79,7 @@ function formatTime(timestamp) {
                     <!-- {#if newScreen > 360} -->
                     <td class="bet">
                         <div class="sc-Galmp erPQzq coin notranslate monospace">
-                            <img class="coin-icon" alt="" src={dice.token_img}>
+                            <img class="coin-icon" alt="" src={$app.getWalletIcon(dice?.coin_name || "USDT")}>
                             <div class="amount">
                                 <span class="amount-str">{(parseFloat(dice.bet_amount)).toFixed(6)}<span class="suffix">00</span>
                                 </span>
@@ -93,7 +94,7 @@ function formatTime(timestamp) {
                     {/if}
                     <td class={`profitline ${dice.has_won ? "is-win": "is-lose"} `}>
                         <div class="sc-Galmp erPQzq coin notranslate monospace has-sign">
-                            <img class="coin-icon" alt=""  src={dice.token_img}>
+                            <img class="coin-icon" alt=""  src={$app.getWalletIcon(dice?.coin_name || "USDT")}>
                             <div class="amount">
                                 {#if !dice.has_won}
                                 <span class="amount-str">{(parseFloat(dice.bet_amount)).toFixed(6)}<span class="suffix">00</span></span>

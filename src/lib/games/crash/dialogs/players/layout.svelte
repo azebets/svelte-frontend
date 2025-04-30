@@ -1,6 +1,6 @@
 <script>
   import Loader from "$lib/loader.svelte";
-  import useFormatter from "../../../../../lib/game-hook/formatter";
+  import useFormatter from "$lib/game-hook/formatter";
   import Decimal from "decimal.js";
   import { url } from "$lib/store/routes";
   const { removeTrailingZeros, getSuffix } = useFormatter();
@@ -8,6 +8,7 @@
   import { handleAuthToken } from "$lib/store/routes";
   import { error_msg } from "../../store";
   import { createEventDispatcher, onMount } from "svelte";
+  import { app } from '$lib/store/app';
     import Empty from "../../../../empty.svelte";
   const dispatch = createEventDispatcher();
   export let gameID = "";
@@ -69,7 +70,7 @@
                     ? 'has-sign'
                     : ''}"
                 >
-                  <img alt="" class="coin-icon" src={player.currencyImage} />
+                  <img alt="" class="coin-icon" src={$app.getWalletIcon(player?.coin_name || "USDT")} />
                   <div class="amount">
                     <span class="amount-str"
                       >{player.won ? "+" : ""}{removeTrailingZeros(

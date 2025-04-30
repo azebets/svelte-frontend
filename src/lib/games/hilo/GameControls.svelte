@@ -20,7 +20,7 @@
   $: betRange = { min: 10, max: 5000 };
   $: slider = null;
 
-  $: coin_image = $hilo_game?.token_img || $default_Wallet?.coin_image || "assets/BTC.webp";
+  $: coin_image = $hilo_game?.token_img || $default_Wallet?.coin_image || "/assets/USDT.webp";
   $: isLoading = $processingRequest || !$hilo_game;
   $: currentRound = null;
   $: canGoNext = !isLoading && !!$hilo_game?.bet_id && !$hilo_game?.has_ended;
@@ -30,7 +30,7 @@
   $: canCashOut = !!$hilo_game?.bet_id && !$hilo_game?.has_ended && !!$hilo_game?.profit;
 
   const updateUSD = () => {
-    if ($default_Wallet?.coin_name === "Fun Coupons") {
+    if ($default_Wallet?.coin_name === "Fun") {
       usd = 0;
       return;
     }
@@ -41,8 +41,8 @@
   };
   default_Wallet.subscribe((v) => {
     if (!$hilo_game?.bet_id) {
-      const rate = v?.coin_name === "USD" ? 0.1 : 1;
-      if (v?.coin_name !== "Fun Coupons") {
+      const rate = v?.coin_name === "USDT" ? 1 : 100;
+      if (v?.coin_name !== "Fun") {
         betRange = {
           min: 0.0001 / rate,
           max: 140 / rate,

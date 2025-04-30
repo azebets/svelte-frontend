@@ -62,13 +62,13 @@ class Currency {
   }
   addDeduction(e) {
     this.deducting = this.deducting.add(e);
-    if (this.currencyName === "USD") {
+    if (this.currencyName === "USDT") {
       USD.update((wallet) => ({
         ...wallet,
         balance: this.available,
       }));
     } 
-    else if (this.currencyName === "Fun Coupons") {
+    else if (this.currencyName === "Fun") {
       fun_coupon.update((wallet) => ({
         ...wallet,
         balance: this.available,
@@ -83,9 +83,8 @@ class Currency {
   }
 }
 const appData = {
-  currencyName: "USD",
-  currencyImage:
-    "assets/BTC.webp",
+  currencyName: "USDT",
+  currencyImage: "/assets/USDT.webp",
   enableLocaleCurrency: true,
   localeCurrencyName: "USD",
 };
@@ -143,9 +142,9 @@ export default class WalletManager extends EventEmitter {
 
     const updateWallet = (wallet) => {
       if (wallet && wallet.coin_name) {
-        let minAmount = wallet.coin_name === "Fun Coupons" ? 0.01 : wallet.coin_name === "USD" ? 0.01 : 1;
-        let maxAmount = wallet.coin_name === "Fun Coupons" ? 100_000 : wallet.coin_name === "USD" ? 5_000 : 30_000;
-        const usdPrice = wallet.coin_name === "Fun Coupons" ? 0 : (wallet.coin_name === "USD" ? 1 : 0.1);
+        let minAmount = wallet.coin_name === "Fun" ? 0.01 : wallet.coin_name === "USDT" ? 0.01 : 1;
+        let maxAmount = wallet.coin_name === "Fun" ? 100_000 : wallet.coin_name === "USDT" ? 5_000 : 30_000;
+        const usdPrice = wallet.coin_name === "Fun" ? 0 : (wallet.coin_name === "USDT" ? 1 : 0.1);
         if (this.dict[wallet.coin_name]) {
           this.dict[wallet.coin_name].setAmount(wallet.balance);
           this.dict[wallet.coin_name].minAmount = minAmount;
@@ -292,12 +291,12 @@ export default class WalletManager extends EventEmitter {
   }
 
   async syncData() {
-    const [fun_coupon, USD] = await Promise.all([
-      fetchWallet("fun"),
-      fetchWallet("USD"),
+    const [fun, USDT] = await Promise.all([
+      fetchWallet("Fun"),
+      fetchWallet("USDT"),
     ]);
 
-    const balances = [fun_coupon, USD].map(
+    const balances = [fun, USDT].map(
       (wallet) => ({
         amount: wallet.balance,
         currencyName: wallet.coin_name,
@@ -314,9 +313,9 @@ export default class WalletManager extends EventEmitter {
       balances
         .sort((a, b) => a.amount - b.amount)
         .forEach((balance) => {
-          const minAmount = balance.currencyName === "Fun Coupons" ? 0.01 : balance.currencyName === "USD" ? 0.1 : 1;
-          const maxAmount = balance.currencyName === "Fun Coupons" ? 100_000 : balance.currencyName === "USD" ? 5_000 : 30_000;
-          const usdPrice = balance.currencyName === "Fun Coupons" ? 0 : (balance.currencyName === "USD" ? 1 : 0.1);
+          const minAmount = balance.currencyName === "Fun" ? 0.01 : balance.currencyName === "USDT" ? 0.1 : 1;
+          const maxAmount = balance.currencyName === "Fun" ? 100_000 : balance.currencyName === "USDT" ? 5_000 : 30_000;
+          const usdTPrice = balance.currencyName === "Fun" ? 0 : (balance.currencyName === "USDT" ? 1 : 0.1);
           let currency = this.dict[balance.currencyName];
 
           if (currency) {
@@ -434,7 +433,7 @@ export default class WalletManager extends EventEmitter {
     if (!rates.length) return 0;
     const rate = rates.find(r => r.currency === fiat)?.rate || 0;
     const bnAmount = new Decimal(amount);
-    const usdPrice = token === "Fun Coupons" ? 0 : token === "USD" ? 0.1 : 1; //this.dict[currency].usdPrice
+    const usdPrice = token === "Fun" ? 0 : token === "USDT" ? 0.1 : 1; //this.dict[currency].usdPrice
     return bnAmount.mul(usdPrice).mul(rate).toNumber()
   }
 
@@ -442,7 +441,7 @@ export default class WalletManager extends EventEmitter {
     if (!rates.length) return 0;
     const rate = rates.find(r => r.currency === fiat)?.rate || 0;
     const fiatAmount = new Decimal(amount);
-    const usdPrice = token === "Fun Coupons" ? 0 : token === "USD" ? 0.1 : 1; //this.dict[currency].usdPrice
+    const usdPrice = token === "Fun" ? 0 : token === "USDT" ? 0.1 : 1; //this.dict[currency].usdPrice
     if (usdPrice === 0 || rate === 0) return 0
     return fiatAmount.div(usdPrice).div(rate).toNumber()
   }

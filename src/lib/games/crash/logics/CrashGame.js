@@ -70,24 +70,24 @@ async function currencInfo() {
   return {
     normalBetLimits: [
       {
-        currencyName: "Fun Coupons",
+        currencyName: "Fun",
         minAmount: 0.1,
         maxAmount: 100_000,
       },
       {
-        currencyName: "USD",
+        currencyName: "USDT",
         minAmount: 0.1,
         maxAmount: 5000,
       },
     ],
     xbetLimits: [
       {
-        currencyName: "Fun Coupons",
+        currencyName: "Fun",
         minAmount: 0.1,
         maxAmount: 100_000,
       },
       {
-        currencyName: "USD",
+        currencyName: "USDT",
         minAmount: 0.1,
         maxAmount: 5000,
       },

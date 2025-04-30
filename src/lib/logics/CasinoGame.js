@@ -361,8 +361,8 @@ const CasinoGame = class extends EventEmitter {
   }
 
   checkBetCurrency(currency) {
-    if (currency !== "Fun Coupons" && currency !== "USD") {
-      throw new Error('Select Fun Coupons or SOL to place bets!');
+    if (currency !== "Fun" && currency !== "USDT") {
+      throw new Error('Select Fun or USDT to place bets!');
     }
   }
 

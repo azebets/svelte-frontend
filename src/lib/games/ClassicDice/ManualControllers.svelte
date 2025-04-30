@@ -6,25 +6,27 @@ import { url } from "$lib/store/routes";
 import { DiceBet } from "$lib/gameAPIs/dice";
 import { handleAuthToken} from "$lib/store/routes";
 import { onMount } from "svelte";
+import { app } from '$lib/store/app';
 import Load from "$lib/loader.svelte";
 import { user } from "$lib/store/profile";
 import {handleSocketConnection} from "$lib/socket/index";
 import { soundManager,soundHandler, DiceEncription, payout, isbetLoadingBtn, betPosition,rollunder,
    Handles_Loading,dice_history  
 } from "$lib/games/ClassicDice/store/index";
+import {toast} from "svelte-sonner"
 
 
-$: default_coins = "assets/BTC.webp"
+$: default_coins = "/assets/BTC.webp"
 $: bet_amount = 0;
-$: demo_wallet = "Fun Coupons";
+$: demo_wallet = "https://res.cloudinary.com/dxwhz3r81/image/upload/v1721026027/Fun_Coupon_-_Blue_c60t1j.jpg";
 $: demo_minebet = 100
 $: demo_maxWallet = 10000
-$: USD_min = 0.01
+$: USD_min = 1
 $: USD_max = 2000
 $: aval_bal = parseFloat($default_Wallet?.balance) || 100
 
 const handleErrors = ((message)=>{
-  handleResposeMessages("error", message)
+  toast.error(message)
   Handles_Loading.set(false);
 })
 
@@ -39,10 +41,10 @@ let Handlemax_profit_tips = (e) => {
 
 $: wining_amount = "";
 onMount(() => {
-    if ($default_Wallet?.coin_name === demo_wallet) {
-      bet_amount = (100.0000).toFixed(7);
+    if ($default_Wallet?.coin_name === "USDT") {
+      bet_amount = (1).toFixed(7);
     }else{
-      bet_amount = (0.004).toFixed(7);
+      bet_amount = (100).toFixed(7);
     }
 });
 
@@ -70,13 +72,13 @@ const dive = (sign) => {
         handleErrors("Insufficient balance")
       }
       else if ( parseFloat(bet_amount) > demo_maxWallet &&  demo_wallet) {
-          handleResposeMessages("error", `Max bet amount for Fun Coupons is ${demo_maxWallet}`)
+          handleResposeMessages("error", `Max bet amount for Fun is ${demo_maxWallet}`)
       } 
      else if (parseFloat(bet_amount) < demo_minebet &&  $default_Wallet?.coin_name === demo_wallet ) {
-        handleResposeMessages("error", `Minimum bet amount for Fun Coupons is ${demo_minebet}`)
+        handleResposeMessages("error", `Minimum bet amount for Fun is ${demo_minebet}`)
       } 
     else if (parseFloat(bet_amount) < USD_min && $default_Wallet?.coin_name !== demo_wallet ) {
-      handleResposeMessages("error", `Minimum bet amount for SOL is ${USD_min}`)
+      handleResposeMessages("error", `Minimum bet amount for USDT is ${USD_min}`)
     } 
     else {
         let data = {
@@ -87,7 +89,7 @@ const dive = (sign) => {
           nonce: $DiceEncription.nonce + non,
           prev_bal: parseFloat($default_Wallet?.balance),
           bet_amount: parseFloat(bet_amount),
-          token_img: $default_Wallet?.coin_image,
+          token_img: $app.getWalletIcon($default_Wallet?.coin_name),
           token: $default_Wallet?.coin_name,
           chance: $rollunder
             ? parseFloat($betPosition).toFixed(2)
@@ -112,6 +114,7 @@ const dive = (sign) => {
         dice_history.set([...$dice_history, respnse])
       }
     }
+    Handles_Loading.set(false);
   }
     else {
       goto(`${$url === "/" ? "" : $url}/?tab=auth&modal=login`)
@@ -159,7 +162,7 @@ const dive = (sign) => {
       </div>
       <div class="input-control">
         <input type="number" bind:value={bet_amount} />
-          <img class="coin-icon" alt="" src={ $isLoggin ? $default_Wallet?.coin_image : default_coins} />
+          <img class="coin-icon" alt="" src="{$app.getWalletIcon($user ? $default_Wallet?.coin_name : "USDT")}" />
         <div class="sc-kDTinF bswIvI button-group">
           <button on:click={() => dive()}>/2</button>
           <button on:click={() => mult()}>x2</button>
@@ -206,7 +209,7 @@ const dive = (sign) => {
       </div>
       <div class="input-control">
         <input type="number" disabled bind:value={wining_amount} />
-        <img class="coin-icon" alt="" src={ $isLoggin ? $default_Wallet?.coin_image : default_coins} />
+        <img class="coin-icon" alt="" src={ $app.getWalletIcon($user ? $default_Wallet?.coin_name : "USDT")} />
       </div>
     </div>
     <button disabled={$Handles_Loading} on:click={handleRollSubmit}

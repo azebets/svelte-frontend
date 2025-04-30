@@ -1,10 +1,8 @@
 <script>
     import { screen } from "$lib/store/screen";
-    import { handleAuthToken} from "$lib/store/routes";
     import { coin_list, default_Wallet } from "$lib/store/coins";
     import { createEventDispatcher } from "svelte";
     import { app } from '$lib/store/app';
-    import Loader from "../loader.svelte";
     const dispatch = createEventDispatcher()
 
     let loading = {}
@@ -49,7 +47,7 @@
                                     </div>
                                     <div class="css-cebha4">
                                         <div class="jehslJs css-1ooew8q">
-                                            <img src="{wallet?.coin_image}" class="coin" alt="">
+                                            <img src="{$app.getWalletIcon(wallet?.coin_name)}" class="coin" alt="">
                                             <div class="css-15smzfl">{wallet?.coin_name}</div>
                                         </div>
                                         <div class="css-1ooew8q">

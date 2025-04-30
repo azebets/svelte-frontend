@@ -3,6 +3,7 @@ import { user } from "$lib/store/profile"
 import Empty from "../../../empty.svelte";
 import { dice_history } from '$lib/games/ClassicDice/store/index';
 import HistoryDetails from "./historyDetails.svelte";
+import { app } from '$lib/store/app';
 $: newItem =  [...$dice_history].reverse()
 
 $: DgII = ''
@@ -76,7 +77,7 @@ function formatTime(timestamp) {
                     {/if}
                     <td class={`profitline ${dice.has_won ? "is-win" : "is-lose" } `}>
                         <div class="sc-Galmp erPQzq coin notranslate monospace has-sign">
-                            <img class="coin-icon" alt="" src={dice.token_img}>
+                        <img class="coin-icon" alt="" src={$app.getWalletIcon(dice?.coin_name || "USDT")}>
                             <div class="amount">
                                 {#if dice.has_won}
                                 <span class="amount-str">+{(parseFloat(dice.profit)).toFixed(6)}<span class="suffix">00</span>

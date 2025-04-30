@@ -29,7 +29,13 @@ export class App_script{
         this.url = null
         this.isLogin = false
         this.secret = ""
+        this.usdtIcon = "/assets/USDT.webp"
+        this.funIcon = "/assets/rx-casino-logo.png"
         this.user = {}
+    }
+    getWalletIcon(name){
+        const icon = name === "USDT" ? this.usdtIcon : this.funIcon
+        return icon
     }
     serverUrl(url){
         this.url = url

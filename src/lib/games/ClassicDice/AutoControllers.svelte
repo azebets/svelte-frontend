@@ -1,4 +1,6 @@
+
 <script>
+import { toast } from 'svelte-sonner'
 import { goto } from "$app/navigation";
 import { url } from "$lib/store/routes";
 import { default_Wallet } from '$lib/store/coins';
@@ -13,12 +15,13 @@ import { dice_history, handlediceAutoInput,Handles_alive,handleOnLose,
 handleStopOnwin, handleOnwin, rollunder } from "../ClassicDice/store/index";
 
 import { onMount } from "svelte";
-$: default_coins = "assets/BTC.webp"
+import { app } from '$lib/store/app';
+
 $: bet_amount = 0;
-$: demo_wallet = "Fun Coupons";
+$: demo_wallet = "Fun";
 $: demo_minebet = 100
 $: demo_maxWallet = 10000
-$: USD_min = 0.01
+$: USD_min = 1
 $: USD_max = 2000
 $: aval_bal = parseFloat($default_Wallet?.balance) || 100
 
@@ -76,7 +79,7 @@ const handlePreBetamout = ((event)=>{
 
 const handleErrors = ((message)=>{
     if(message){
-        handleResposeMessages("error", message)
+        toast.error(message)
     }
   is_Looping = false
   clearInterval(yu) 
@@ -159,7 +162,7 @@ const handleRollSubmit = (async()=>{
             handleErrors("Insufficient balance")
         }
         else if(parseFloat($handlediceAutoInput) > demo_maxWallet && $default_Wallet.coin_name !== demo_wallet){
-            handleErrors(`Maximum bet amount for USD is ${USD_max} `)
+            handleErrors(`Maximum bet amount for USDT is ${USD_max} `)
         }
         else if( parseFloat($handlediceAutoInput) > demo_maxWallet && $default_Wallet.coin_name === demo_wallet){
             handleErrors(`Maximum bet amount for ${demo_wallet} ${demo_maxWallet} `)
@@ -168,7 +171,7 @@ const handleRollSubmit = (async()=>{
             handleErrors(`Maximum bet amount for ${demo_wallet} ${demo_minebet} `)
         }
         else if( parseFloat($handlediceAutoInput) < USD_min && $default_Wallet.coin_name !== demo_wallet){
-            handleErrors(`Maximum bet amount for USD is ${USD_min} `)
+            handleErrors(`Maximum bet amount for USDT is ${USD_min} `)
         }
         else{
             let data = {
@@ -262,7 +265,7 @@ const handlesjen = ((e)=>{
             </div>
             <div class="input-control">
                 <input disabled={$Handles_alive} type="number" bind:value={$handlediceAutoInput}>
-                   <img class="coin-icon" alt="" src={$isLoggin ? $default_Wallet.coin_image : default_coins}>
+                   <img class="coin-icon" alt="" src="{$app.getWalletIcon($user ? $default_Wallet?.coin_name : "USDT")}">
                 <div class="sc-kDTinF bswIvI button-group">
                     <button disabled={$Handles_alive} on:click={()=> dive() }>/2</button>
                     <button disabled={$Handles_alive} on:click={()=> mult() }>x2</button>
@@ -319,7 +322,7 @@ const handlesjen = ((e)=>{
             </div>
             <div class="input-control">
                 <input type="number" disabled={$Handles_alive} bind:value={$handleStopOnwin}>
-                <img class="coin-icon" alt="" src={$isLoggin ? $default_Wallet.coin_image : default_coins}>
+                <img class="coin-icon" alt="" src="{$app.getWalletIcon($user ? $default_Wallet?.coin_name : "USDT")}">
             </div>
         </div>
 
@@ -343,7 +346,7 @@ const handlesjen = ((e)=>{
             </div>
             <div class="input-control">
                 <input type="number" disabled={$Handles_alive} bind:value={$handleStopOnLose}>
-                   <img class="coin-icon" alt="" src={$isLoggin ? $default_Wallet.coin_image : default_coins}>
+                   <img class="coin-icon" alt="" src="{$app.getWalletIcon($user ? $default_Wallet?.coin_name : "USDT")}">
             </div>
         </div>
 
@@ -359,6 +362,5 @@ const handlesjen = ((e)=>{
         <button on:click={handleAutoStart} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-big bet-button">
             <div class="button-inner"> {is_Looping ? "Stop" : "Start"} Auto Bet</div>
         </button>
-
     </div>
 </div>

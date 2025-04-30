@@ -27,7 +27,7 @@ let Handlemax_profit_tips = ((e)=>{
 
 let wining_amount = '' ;
 onMount(()=>{
-    if($default_Wallet?.coin_name === "USD"){
+    if($default_Wallet?.coin_name === "USDT"){
         bet_amount.set((0.2).toFixed(4))
     }else{
         bet_amount.set((100).toFixed(4))
@@ -119,8 +119,8 @@ const handleDpojb = (async()=>{
      // if(browser && window.navigator.onLine){
         is_loading = true
         if($user){
-            if( $default_Wallet?.coin_name !== "USD" 
-            && $default_Wallet?.coin_name !== "Fun Coupons"
+            if( $default_Wallet?.coin_name !== "USDT" 
+            && $default_Wallet?.coin_name !== "Fun"
             ){
                 toast.error("Select another coin")
                 is_loading = false
@@ -341,7 +341,7 @@ let is_min_max = false;
 let walletRange = 0;
   const handleRangeSTlop = (eui) => {
     bet_amount.set((parseFloat($default_Wallet?.balance) * (eui / 100)).toFixed(4));
-    if ($default_Wallet?.coin_name === "USD") {
+    if ($default_Wallet?.coin_name === "USDT") {
       if ($bet_amount < 0.1) {
         bet_amount.set((0.1).toFixed(4));
       } else if ($bet_amount > 2000) {
@@ -360,7 +360,7 @@ let walletRange = 0;
 const handlesjen = (e) => {
     bet_amount.set((parseFloat($default_Wallet?.balance) * (e / 100)).toFixed(4));
     walletRange = e;
-    if ($default_Wallet?.coin_name === "USD") {
+    if ($default_Wallet?.coin_name === "USDT") {
       if ($bet_amount < 0.1) {
         bet_amount.set((0.1).toFixed(4));
       } else if ($bet_amount > 2000) {
@@ -417,7 +417,7 @@ const handlesjen = (e) => {
                     <img class="coin-icon" alt="" src={$default_Wallet?.coin_image}>
                 {/if}  
                 {:else}
-                    <img class="coin-icon" alt="" src="/assets/BTC.webp">
+                    <img class="coin-icon" alt="" src="/assets/USDT.webp">
                 {/if}
                 <div class="sc-kDTinF bswIvI button-group">
                     <button on:click={()=> dive()}>/2</button>

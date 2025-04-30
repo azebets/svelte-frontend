@@ -1,7 +1,5 @@
 <script>
     import { browser } from "$app/environment";
-    import Icon from 'svelte-icons-pack/Icon.svelte';
-  import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp"
     import { createEventDispatcher, onMount } from "svelte";
     import useFormatter from "$lib/hook/formatter";
     import useLiveStats from "$lib/hook/livestats";
@@ -164,7 +162,7 @@
       Live Stats
     </div>
     <button on:click={()=> dispatch("close")}  class="sc-ieecCq fLASqZ close-icon dialog-close">
-      <Icon src={IoCloseSharp}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" />
+      <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Close"></use></svg>
     </button>
     <div class="dragpop-content">
       <div class="sc-dkPtRN jScFby scroll-view sc-eBTqsU eLzuEc">

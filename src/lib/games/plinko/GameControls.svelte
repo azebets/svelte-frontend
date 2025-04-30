@@ -22,9 +22,8 @@
   $: autoBetInfo = {
     numberOfBets: 0,
   };
-  $: coinImage =
-    '/assets/coin.png';
-  $: coinName = 'Fun Coupons';
+  $: coinImage =  "/assets/USDT.webp";
+  $: coinName = 'USDT';
   $: riskValue = 'Low';
   $: rowValue = 8;
   $: plinkoRunning = false;
@@ -46,9 +45,9 @@
         currentTab = game.controlIdx;
         coinImage = WalletManager.getInstance().current.currencyImage;
         coinName = WalletManager.getInstance().current.currencyName;
-        canBet = game.canBet && (coinName === 'SOL' || coinName === 'Fun Coupons');
+        canBet = game.canBet && (coinName === 'USDT' || coinName === 'Fun');
         autoBetting = autoBet.isRunning;
-        inputDisabled = coinName !== 'SOL' && coinName !== 'Fun Coupons';
+        inputDisabled = coinName !== 'USDT' && coinName !== 'Fun';
         rowValue = game.rows;
         riskValue =
           game.riskOptions.find((v) => v.value === game.risk)?.label || 'Low';
@@ -66,7 +65,7 @@
       });
     }
   }
-  $: canViewInFiat = $viewInFiat && coinName !== 'Fun Coupons';
+  $: canViewInFiat = $viewInFiat && coinName !== 'Fun';
   const inputValidate = (e) => {
     function validateInput(input) {
       if (!isNaN(Number(input))) {
@@ -320,10 +319,10 @@
               >
             </div>
           </div>
-          <!-- {#if !(coinName === 'Fun Coupons' || coinName === 'SOL')}
+          <!-- {#if !(coinName === 'Fun' || coinName === 'USDT')}
             <span
               style="display: block; padding: 10px; color: #fd4d4d; font-size: 0.8rem;"
-              >Select Fun Coupons or SOL</span
+              >Select Fun or SOL</span
             >
           {/if} -->
         </div>

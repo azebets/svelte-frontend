@@ -8,6 +8,7 @@
     import { goto } from "$app/navigation"
     import { default_Wallet } from "$lib/store/coins";
     import Menu from "./homeNav/menu.svelte";
+    import { app } from '$lib/store/app';
     import { user } from "$lib/store/profile";
     import Balance from "./homeComponent/balance.svelte";
     const dispatch = createEventDispatcher();
@@ -52,7 +53,7 @@
                     <button on:click={()=> showBalance =! showBalance}>
                         <div class="css-nq7c33">
                             <div class="css-12frltk">
-                               <img src="{$default_Wallet?.coin_image}" alt="">
+                               <img src="{$app.getWalletIcon($default_Wallet?.coin_name)}" alt="">
                             </div>
                             <div class="">${(parseFloat($default_Wallet?.balance)).toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
                             <div class="css-17wlo94">
@@ -66,7 +67,7 @@
                         <Balance on:close={()=> showBalance = false}/>
                     {/if}
                 </div>
-                <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=deposit`)} class="css-1psueex" style="padding: 0px 16px;">Cashier</button>
+                <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=deposit`)} class="css-1psueex" style="padding: 0px 16px;">Wallet</button>
             </div>
             <div class="css-1v3z295">
                 <!-- <button class="css-1fs5j72">
@@ -134,7 +135,7 @@
                     <button on:click={()=> showBalance =! showBalance}>
                         <div class="css-nq7c33">
                             <div class="css-12frltk">
-                                <img src="{$default_Wallet?.coin_image}" alt="">
+                                <img src="{$app.getWalletIcon($default_Wallet?.coin_name)}" alt="">
                              </div>
                             <div class="">${(parseFloat($default_Wallet?.balance)).toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
                             <div class="css-17wlo94">

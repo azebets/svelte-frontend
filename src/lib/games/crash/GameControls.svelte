@@ -65,7 +65,7 @@
   };
 
   $: xBet = null;
-  $: coinImage = "assets/BTC.webp";
+  $: coinImage = "/assets/USDT.webp";
   $: coinName = "USD";
 
   let game = null;
@@ -112,8 +112,8 @@
         coinName = WalletManager.getInstance().current.currencyName;
         nextBetInfo = game.nextBetInfo;
         canEscape = game.canEscape;
-        inputDisabled = coinName !== "Fun Coupons" && coinName !== "USD";
-        canBet = game.canBet && (coinName === "Fun Coupons" || coinName === "USD" );
+        inputDisabled = coinName !== "Fun" && coinName !== "USDT";
+        canBet = game.canBet && (coinName === "Fun" || coinName === "USDT" );
         gameStatus = game.status;
         scriptRunning = game.script.isRunning;
         percentChance = new Decimal(99 / game.maxRate).toDP(2).toNumber();
@@ -153,7 +153,7 @@
       });
     }
   }
-  $: canViewInFiat = $viewInFiat && coinName !== "Fun Coupons";
+  $: canViewInFiat = $viewInFiat && coinName !== "Fun";
   const inputValidate = (e) => {
     function validateInput(input) {
       if (!isNaN(Number(input))) {
@@ -562,7 +562,7 @@
                   </button>
                 </div>
               </div>
-              {#if !(coinName === "USD" || coinName === "Fun Coupons")}
+              {#if !(coinName === "USDT" || coinName === "Fun")}
               <span style="display: block; padding: 10px; color: #fd4d4d; font-size: 0.8rem;">Select another coin</span>
               {/if}
             </div>
@@ -695,7 +695,7 @@
                 >
               </div>
             </div>
-            {#if !(coinName === "USD" || coinName === "Fun Coupons")}
+            {#if !(coinName === "USDT" || coinName === "Fun")}
               <span style="display: block; padding: 10px; color: #fd4d4d; font-size: 0.8rem;">Select another coin</span>
             {/if}
           </div>
