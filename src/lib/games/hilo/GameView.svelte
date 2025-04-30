@@ -38,28 +38,28 @@
     token_img: "/assets/sol.png",
   };
 
-  // $: {
-  //   if (browser) {
-  //     HIAnim =
-  //       HIAnimContainer &&
-  //       lottie.loadAnimation({
-  //         container: HIAnimContainer,
-  //         renderer: "svg",
-  //         loop: false,
-  //         autoplay: false,
-  //         path: "/assets/hilo/anim/giraffe.592355d2.json",
-  //       });
-  //     LOAnim =
-  //       LOAnimContainer &&
-  //       lottie.loadAnimation({
-  //         container: LOAnimContainer,
-  //         renderer: "svg",
-  //         loop: false,
-  //         autoplay: false,
-  //         path: "/assets/hilo/anim/monkey.ca9b3010.json",
-  //       });
-  //   }
-  // }
+  $: {
+    if (browser) {
+      HIAnim =
+        HIAnimContainer &&
+        lottie.loadAnimation({
+          container: HIAnimContainer,
+          renderer: "svg",
+          loop: false,
+          autoplay: false,
+          path: "/assets/hilo/anim/giraffe.592355d2.json",
+        });
+      LOAnim =
+        LOAnimContainer &&
+        lottie.loadAnimation({
+          container: LOAnimContainer,
+          renderer: "svg",
+          loop: false,
+          autoplay: false,
+          path: "/assets/hilo/anim/monkey.ca9b3010.json",
+        });
+    }
+  }
 
   const handleSkip = () => {
     dispatch("hiloNextRound", {
@@ -69,81 +69,85 @@
     });
   };
 
-  // onMount(() => {
-  //   hilo_game.subscribe((game) => {
-  //     if (game?.bet_id) {
-  //       rounds = game.rounds.map((r) => ({
-  //         ...r,
-  //         redCard: [suites[1], suites[3]].includes(getCardSuite(r.card)),
-  //       }));
-  //       currentRound = rounds[game.rounds.length - 1];
-  //       cardNumber = rounds[game.rounds.length - 1].card || 0;
-  //       if (gameCache) {
-  //         $soundManager.play("deal");
-  //         if (game.has_ended) {
-  //           if (game.won) {
-  //             $soundManager.play("win");
-  //             $soundManager.play("cashout");
-  //             gameWinData = {
-  //               profit: game.profit.toFixed(4),
-  //               payout: game.payout.toFixed(2),
-  //               token_img: game.token_img,
-  //             };
-  //             notifyWin = true;
+  onMount(() => {
+    if(browser){
+      hilo_game.subscribe((game) => {
+      if (game?.bet_id) {
+        rounds = game.rounds.map((r) => ({
+          ...r,
+          redCard: [suites[1], suites[3]].includes(getCardSuite(r.card)),
+        }));
+        currentRound = rounds[game.rounds.length - 1];
+        cardNumber = rounds[game.rounds.length - 1].card || 0;
+        if (gameCache) {
+          $soundManager.play("deal");
+          if (game.has_ended) {
+            if (game.won) {
+              $soundManager.play("win");
+              $soundManager.play("cashout");
+              gameWinData = {
+                profit: game.profit.toFixed(4),
+                payout: game.payout.toFixed(2),
+                token_img: game.token_img,
+              };
+              notifyWin = true;
 
-  //             setTimeout(() => (notifyWin = false), 4000);
-  //           }
-  //           recordGame(game.won, game.bet_amount, game.profit, game.token_img);
-  //         } else if (rounds.length > 1) {
-  //           if (currentRound.guess !== 1) {
-  //             $soundManager.play("win");
-  //           }
+              setTimeout(() => (notifyWin = false), 4000);
+            }
+            recordGame(game.won, game.bet_amount, game.profit, game.token_img);
+          } else if (rounds.length > 1) {
+            if (currentRound.guess !== 1) {
+              $soundManager.play("win");
+            }
 
-  //           if (game.hi) {
-  //             $soundManager.play("giraffe");
-  //             HIAnim.goToAndPlay(0);
-  //           } else if (game.lo) {
-  //             $soundManager.play("ape");
-  //             LOAnim.goToAndPlay(0);
-  //           } else {
-  //             $soundManager.play("skip");
-  //           }
-  //         }
-  //       } else if (rounds.length === 1) {
-  //         $soundManager.play("bet");
-  //         $soundManager.play("deal");
-  //       }
-  //       if (!!gameCache || rounds.length === 1) {
-  //         setTimeout(() => {
-  //           const old =
-  //             rounds.length === 1 && Object.keys(cardActivate).length > 1
-  //               ? {}
-  //               : cardActivate;
-  //           cardActivate = { ...old, ...{ [currentRound.round]: "active" } };
-  //         }, 250);
-  //       } else {
-  //         const _active = {};
-  //         rounds.forEach(({ round }) => {
-  //           _active[round] = "active";
-  //         });
-  //         cardActivate = _active;
-  //       }
-  //       gameCache = game;
-  //       setTimeout(() => {
-  //         roundsContainer?.scrollTo({
-  //           left: roundsContainer.scrollWidth,
-  //           behavior: "smooth",
-  //         });
-  //       }, 300);
-  //     } else if (game?.error) {
-  //       console.log(game.error);
-  //     }
-  //   });
-  // });
-  // onDestroy(() => {
-  //   HIAnim?.destroy();
-  //   LOAnim?.destroy();
-  // });
+            if (game.hi) {
+              $soundManager.play("giraffe");
+              HIAnim.goToAndPlay(0);
+            } else if (game.lo) {
+              $soundManager.play("ape");
+              LOAnim.goToAndPlay(0);
+            } else {
+              $soundManager.play("skip");
+            }
+          }
+        } else if (rounds.length === 1) {
+          $soundManager.play("bet");
+          $soundManager.play("deal");
+        }
+        if (!!gameCache || rounds.length === 1) {
+          setTimeout(() => {
+            const old =
+              rounds.length === 1 && Object.keys(cardActivate).length > 1
+                ? {}
+                : cardActivate;
+            cardActivate = { ...old, ...{ [currentRound.round]: "active" } };
+          }, 250);
+        } else {
+          const _active = {};
+          rounds.forEach(({ round }) => {
+            _active[round] = "active";
+          });
+          cardActivate = _active;
+        }
+        gameCache = game;
+        setTimeout(() => {
+          roundsContainer?.scrollTo({
+            left: roundsContainer.scrollWidth,
+            behavior: "smooth",
+          });
+        }, 300);
+      } else if (game?.error) {
+        console.log(game.error);
+      }
+    });
+    }
+  });
+  onDestroy(() => {
+    if(browser){
+      HIAnim?.destroy();
+      LOAnim?.destroy();
+    }
+  });
 </script>
 
 
