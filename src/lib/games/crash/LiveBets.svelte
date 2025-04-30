@@ -596,11 +596,7 @@
   .vjsVz .list-toggle.show-less .icon {
     transform: rotate(-90deg);
   }
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
+
 
   .engBBI {
     min-height: 28.125rem;

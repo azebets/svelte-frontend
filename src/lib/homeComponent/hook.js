@@ -2,10 +2,10 @@
 export const handleListGame = (()=>{
     let gameList = []
     return gameList = [
-        {id:1, name: "Crash", url:"crash", img: "/assets/originals/crash (1).png", super: true, houseEdge: 1 },
-        {id:2, name: "Classic Dice", url:"classic-dice", img: '/assets/originals/classic_dice (2).png', super: true, houseEdge: 1 },
-        // {id:1, name: "Mines", url:"mines", img: new URL('../../lib/images/mine (1).png', import.meta.url).href, super: false, houseEdge: 1 },
-        {id:3, name: "Plinko", url:"plinko", img: '/assets/originals/plinko (1).png', super: false, houseEdge: 1 },
+        {id:1, name: "Crash", url:"crash", img: "/assets/originals/crash-stake.avif", super: true, houseEdge: 1 },
+        {id:2, name: "Classic Dice", url:"classic-dice", img: '/assets/originals/mines-stake.avif', super: true, houseEdge: 1 },
+        {id:1, name: "Mines", url:"mines", img: "/assets/originals/dicestake.avif", super: false, houseEdge: 1 },
+        {id:3, name: "Plinko", url:"plinko", img: '/assets/originals/plinko-stake.avif', super: false, houseEdge: 1 },
         // {id:1, name: "Keno", url:"coming-soon", img: new URL('/assets/originals/keno (1).png', import.meta.url).href, super: false, houseEdge: 1 },
         {id:4, name: "Hilo", url:"hilo", img: '/assets/originals/hilo (1).png', super: false, houseEdge: 1 },
         {id:5, name: "Hilo", url:"crash/?game=trendball", img: 'https://img2.nanogames.io/game/image/4398e0b7-7da4-4d42-b67d-33d5f2785fc6.png', super: false, houseEdge: 1 },

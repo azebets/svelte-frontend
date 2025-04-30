@@ -239,11 +239,6 @@
     cursor: pointer;
     font-size: 0.75rem;
   }
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
   .default-style {
     padding-top: 3.75rem;
     background-color: rgb(23, 24, 27);

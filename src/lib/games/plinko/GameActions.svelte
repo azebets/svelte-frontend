@@ -149,12 +149,6 @@
     fill: rgb(153, 164, 176);
     transition: all 0.3s ease-in-out 0s;
   }
-
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
   .game-actions::after {
     content: '';
     position: absolute;

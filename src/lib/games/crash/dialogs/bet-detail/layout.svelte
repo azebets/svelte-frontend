@@ -307,11 +307,6 @@
     margin-right: 0.5rem;
   }
 
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
   .fBJgLI {
     margin-top: 0.5rem;
     display: flex;

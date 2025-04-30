@@ -135,11 +135,6 @@
     font-size: 0.75rem;
 }
 
-.hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-}
 .fLASqZ:hover svg {
     transform: rotate(-90deg);
     fill: rgb(245, 246, 247);

@@ -139,11 +139,7 @@
     opacity: 0.3;
     background-color: rgb(49, 52, 60);
   }
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
+
   .action-item.active .icon {
     fill: rgb(67, 179, 9);
   }

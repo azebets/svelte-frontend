@@ -966,11 +966,6 @@
     opacity: 1;
   } */
 
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
   .bet-button {
     margin-top: 1.875rem;
     font-weight: 600;

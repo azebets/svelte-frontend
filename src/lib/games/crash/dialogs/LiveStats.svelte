@@ -295,11 +295,7 @@
     width: 0.875rem;
     height: 0.875rem;
   }
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
+
   .eLzuEc {
     font-size: 0.75rem;
     min-width: 300px;

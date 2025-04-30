@@ -358,9 +358,5 @@
     margin-right: 0.25rem;
     fill: rgb(67, 179, 9);
   }
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
+
 </style>

@@ -737,12 +737,6 @@
     height: 0.75rem;
   }
 
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
-
   .kqrzPs .amount-ico {
     width: 1.5rem;
     height: 1.5rem;

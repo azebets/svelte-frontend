@@ -1529,11 +1529,7 @@
     height: 1.25rem;
   }
 
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
+
   .ecRzBN .script-run {
     height: 2.25rem;
     border-radius: 1.125rem;

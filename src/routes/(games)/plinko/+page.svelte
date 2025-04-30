@@ -289,9 +289,4 @@
     font-size: 0.5625rem;
     margin-left: 1.125rem;
   }
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
 </style>

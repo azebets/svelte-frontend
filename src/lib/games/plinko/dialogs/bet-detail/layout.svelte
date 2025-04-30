@@ -327,12 +327,6 @@
     width: 1.5rem;
     height: 1.5rem;
   }
-
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
   .Osnbt .rt_info {
     margin: 0px auto;
     padding-top: 2.875rem;
@@ -417,11 +411,6 @@
   }
   .Osnbt .rt_items .item-wrap .label > svg {
     margin-right: 0.5rem;
-  }
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
   }
   .Osnbt .rt_items .item-wrap .number {
     height: 1rem;

@@ -350,11 +350,7 @@
     margin-right: 0.375rem;
   }
 
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
+
   .gcZuwC {
     position: relative;
     flex: 1 1 0%;

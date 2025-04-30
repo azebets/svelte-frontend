@@ -130,11 +130,7 @@
     transition: transform 0.5s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
   }
 
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
+
   .gOHquD.is-open .select-options-wrap {
     pointer-events: auto;
   }

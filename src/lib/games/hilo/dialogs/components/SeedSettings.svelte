@@ -275,11 +275,6 @@
     margin-left: 0.5rem;
     cursor: pointer;
   }
-  .hxODWG {
-    width: 1.4em;
-    height: 1.4em;
-    fill: rgba(153, 164, 176, 0.6);
-  }
   .iGYNgq .submit {
     margin: 1.25rem 0px 3.75rem;
     padding: 0px 3.125rem;
