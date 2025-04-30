@@ -392,7 +392,7 @@
       opacity: 0.5;
     }
     .dQxvCn .chart-cont .item-wrap .cl-require .amount {
-      color: #fb3d3d !important;
+      color: rgb(237, 99, 0) !important;
     }
   
     .dQxvCn .chart-cont .item-wrap .cl-success .amount {
@@ -428,7 +428,7 @@
       font-weight: 600;
     }
     .dQxvCn .bet-wrap .lose .num {
-      color: #fb3d3d;
+      color: rgb(237, 99, 0);
     }
   </style>
   

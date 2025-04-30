@@ -1,9 +1,9 @@
-import { ServerURl } from "$lib/backendUrl"
+import { serverUrl } from "$lib/backendUrl"
 import { mine_history, HandleSelectedMine, minesStore,  HandleNextTime,  HandlemineGems,  HandleMineCount,
     HandleGame_id,  Cashout,  HandleHas_won, betDetails, HandleIsAlive,HandleWinning } from "../store/index"
 
 export const handleActivemies = (async (auth) => {
-    await axios.get(`${ServerURl()}/api/user/mine-game/mine-init`, {
+    await axios.get(`${serverUrl()}/api/user/mine-game/mine-init`, {
             headers: {
                 Authorization: `Bearer ${auth}`
             }

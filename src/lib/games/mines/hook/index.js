@@ -1,9 +1,9 @@
 
 
-// import {default_Wallet} from "../../../store/coins"
+import {default_Wallet} from "../../../store/coins"
 import cr from "../audio/mixkit-achievement-bell-600.wav"
-import { ServerURl } from "$lib/backendUrl"
-const URl = ServerURl()
+import { serverUrl } from "$lib/backendUrl"
+const URl = serverUrl()
 
 export function playSound() {
   const audio = new Audio(cr);

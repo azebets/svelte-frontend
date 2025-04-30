@@ -1,11 +1,9 @@
 <script>
-import { handleSeedSettingAPI } from "$lib/gameAPIs/dice"
 import { handleAuthToken } from "$lib/store/routes"
 export let settin;
-import { handleResposeMessages} from "$lib/store/activities";
 import { createEventDispatcher } from "svelte";
 const dispatch = createEventDispatcher()
-
+import axios from "axios";
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 function generateString(length) {
     let result = '';
@@ -24,23 +22,22 @@ const handleCancle = (()=>{
 
 let is_loading = false
 const handleSeedSettings = (async()=>{
-    const regex = /^[a-zA-Z0-9]+$/;
     is_loading = true
-    if(!client || client.length < 10){
-        setTimeout(()=>{
-            handleResposeMessages( "error", "Field must have at least 10 characters")
-            is_loading = false
-        },800)
-    }else if(!regex.test(client)){
-        setTimeout(()=>{
-             handleResposeMessages( "error","Field must have at least 10 characters")
-            is_loading = false
-        },800)
-    }
-    else{
-       const s = await handleSeedSettingAPI($handleAuthToken, {client, server, hash})
-       console.log(s)
-    }
+    await axios.post("http://localhost:8000/api/user/dice-game/seed-settings",{
+        data: client
+    },{
+    headers: {
+        "Content-type": "application/json",
+        'Authorization': `Bearer ${$handleAuthToken}`
+        }
+    })
+    .then((res)=>{
+        is_loading = false
+        handleCancle()
+    })
+    .catch((error)=>{
+        is_loading = false
+    })
 })
 
 
@@ -58,20 +55,20 @@ const handleSeedSettings = (async()=>{
             <div class="sc-ezbkAF kDuLvp input ">
                 <div class="input-label">Server Seed (hash)</div>
                 <div class="input-control">
-                    <input type="text" readonly value={settin?.server_seed}>
+                    <input type="text" readonly value={settin.server_seed}>
                 </div>
             </div>
             <div class="formFlex">
                 <div class="sc-ezbkAF kDuLvp input ">
                     <div class="input-label">Client Seed</div>
                     <div class="input-control">
-                        <input type="text" readonly value={settin?.client_seed}>
+                        <input type="text" readonly value={settin.client_seed}>
                     </div>
                 </div>
                 <div class="sc-ezbkAF kDuLvp input ">
                     <div class="input-label">Nonce</div>
                     <div class="input-control">
-                        <input type="text" readonly value={settin?.game_nonce}>
+                        <input type="text" readonly value={settin.game_nonce}>
                     </div>
                 </div>
             </div>
@@ -82,7 +79,7 @@ const handleSeedSettings = (async()=>{
             <div class="sc-ezbkAF kDuLvp input ">
                 <div class="input-label">Server Seed (hash)</div>
                 <div class="input-control">
-                    <input type="text" placeholder="The seed hasn't been revealed yet" readonly value={settin?.server_seed}>
+                    <input type="text" placeholder="The seed hasn't been revealed yet" readonly value={settin.server_seed}>
                 </div>
             </div>
             <div class="formFlex">

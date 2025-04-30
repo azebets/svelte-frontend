@@ -1,7 +1,7 @@
 <script>
-// import AutoControllers from "./AutoControllers.svelte";
-import ManualControllers from "./ManualControllers.svelte";
-import { HandleIsAlive, HandleWinning, HandleHas_won } from "../mines/store/index";
+// import AutoControllers from "$lib/games/mines/AutoControllers.svelte";
+import ManualControllers from "$lib/games/mines/ManualControllers.svelte";
+import { HandleIsAlive, HandleWinning, HandleHas_won } from "$lib/games/mines/store/index";
 let is_manual = true
 export let newScreen;
 
@@ -18,22 +18,23 @@ const hanleManualControls = ((e)=>{
 
 </script>
 
-<div id="ClassicDice-control-0" class="sc-hLVXRe cYiOHZ game-control {newScreen > 1000 ? "style0" : "style-mobile" } ">
-    <div class="sc-iwjdpV ikWSlH radio game-control-switch">
+<div id="ClassicDice-control-0" class="sc-hLVXRe cYiOHZ game-control {newScreen > 1200 ? "style0" : "style-mobile" } ">
+    <!-- <div class="sc-iwjdpV ikWSlH radio game-control-switch">
         <button disabled={$HandleIsAlive} on:click={()=> hanleManualControls(1)} class={`${is_manual ? "is-active" : ""} `}>
             <div class="label">Manual</div>
         </button>
         <button disabled={$HandleIsAlive} on:click={()=> hanleManualControls(2)} class={`${!is_manual ? "is-active" : ""} `}>
             <div class="label">Auto</div>
         </button>
-    </div>
+    </div> -->
     <div class="game-control-panel" style="margin-top: 30px;">
-        {#if is_manual}
-            <!-- <ManualControllers /> -->
+        <ManualControllers />
+        <!-- {#if is_manual}
+           
         {/if}
         {#if !is_manual}
-            <!-- <AutoControllers /> -->
-        {/if}
+            <AutoControllers />
+        {/if} -->
     </div>
 </div>
 
@@ -50,7 +51,7 @@ const hanleManualControls = ((e)=>{
 .cYiOHZ.style-mobile .game-control-panel {
     padding: 0px 1.125rem;
 }
-.cYiOHZ.style-mobile .game-control-switch {
+/* .cYiOHZ.style-mobile .game-control-switch {
     order: 2;
     margin-top: 1.25rem;
     position: relative;
@@ -64,8 +65,8 @@ const hanleManualControls = ((e)=>{
     height: 1px;
     opacity: 0.3;
     background-color: rgb(49, 52, 60);
-}
-.cYiOHZ.style-mobile .game-control-switch > button.is-active {
+} */
+/* .cYiOHZ.style-mobile .game-control-switch > button.is-active {
     border-bottom-color: #9900cc;
     background-image: linear-gradient(to top, #9900cc6c, rgba(123, 197, 20, 0) 50%);
 }
@@ -82,5 +83,5 @@ const hanleManualControls = ((e)=>{
     flex: 1 1 0%;
     cursor: pointer;
     color: rgba(153, 164, 176, 0.6);
-}
+} */
 </style>

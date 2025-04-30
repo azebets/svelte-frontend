@@ -1,19 +1,11 @@
 <script>
-import { error_msg } from "../store/index"
-import Icon from 'svelte-icons-pack/Icon.svelte';
-import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp"
-import FaSolidShare from "svelte-icons-pack/fa/FaSolidShare";
-import SiMoneygram from "svelte-icons-pack/si/SiMoneygram";
-import BsCreditCardFill from "svelte-icons-pack/bs/BsCreditCardFill";
-import RiFinanceHandCoinFill from "svelte-icons-pack/ri/RiFinanceHandCoinFill";
-import RiSystemArrowLeftSLine from "svelte-icons-pack/ri/RiSystemArrowLeftSLine";
-import { handleAuthToken } from "$lib/store/routes"
+// // import { error_msg } from "../store/index"
+// import { handleAuthToken } from "$lib/store/routes"
 import { browser } from '$app/environment';
 export let DgII
 import axios from "axios"
-import { ServerURl } from "$lib/backendUrl"
-import { onMount } from "svelte";
-const URL = ServerURl()
+import { serverUrl } from "$lib/backendUrl"
+const URL = serverUrl()
 import {createEventDispatcher } from 'svelte';
 import Share from './share/share.svelte';
 import Seedsettings from './share/seedsettings.svelte';
@@ -79,25 +71,16 @@ $:{
 </script>
 
 <div class="sc-bkkeKt kBjSXI">
-    {#if $error_msg}
-    <div class="error-message">
-        <div class="hTTvsjh"> 
-            <div>{$error_msg}</div>
-            </div>
-        </div>
-    {/if} 
     <div class="dialog "style={`${is_mobile ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
         {#if is_seeed_settigs}
             <button on:click={()=> handleSeedSettings()} class="dialog-back" style="opacity: 1; transform: none;">
-                <Icon src={RiSystemArrowLeftSLine}  size="23"  color="rgba(153, 164, 176, 0.6)" />
+                <!-- <Icon src={RiSystemArrowLeftSLine}  size="23"  color="rgba(153, 164, 176, 0.6)" /> -->
             </button>
         {/if}
         <div class={`dialog-head ${is_seeed_settigs ? "has-back" : "has-close"} `}>
             <div class="dialog-title">{is_seeed_settigs ? "Seed Settings" : "Details"}</div>
         </div>
-        <button on:click={()=> handleCloseHelp()}  class="sc-ieecCq fLASqZ close-icon dialog-close">
-            <Icon src={IoCloseSharp}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon"  />
-        </button>
+        <button on:click={()=> handleCloseHelp()} class="sc-ieecCq fLASqZ close-icon dialog-close"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Close"></use></svg></button>
         {#if !is_loading}
         {#if !is_seeed_settigs}
         <div class="dialog-body default-style " style="z-index: 2; transform: none;">
@@ -126,7 +109,7 @@ $:{
                         <div class="item-wrap">
                             <div class="label flex-center">
                                 <span style="padding-right: 3px;">
-                                    <Icon src={SiMoneygram}  size="13"  color="rgb(223, 39, 113)" className="custom-icon"  />
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon amount"><use xlink:href="#icon_Amount"></use></svg>
                                 </span>
                                 Amount
                             </div>
@@ -135,7 +118,7 @@ $:{
                         <div class="item-wrap">
                             <div class="label flex-center">
                                 <span style="padding-right: 3px;">
-                                    <Icon src={BsCreditCardFill}  size="13"  color="rgb(119, 60, 253)" className="custom-icon"  />
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon payout"><use xlink:href="#icon_Payout"></use></svg>
                                 </span>
                                 Payout
                             </div>
@@ -144,7 +127,7 @@ $:{
                         <div class="item-wrap">
                             <div class="label flex-center">
                                 <span style="padding-right: 3px;">
-                                    <Icon src={RiFinanceHandCoinFill}  size="13"  color="rgb(218, 30, 40)" className="custom-icon"  />
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon profit"><use xlink:href="#icon_Profit"></use></svg>
                                 </span>
                                 Profit
                             </div>
@@ -202,13 +185,13 @@ $:{
                     </div>
                 </div>
 
-                <div class="verify-wrap">
+                <!-- <div class="verify-wrap">
                     <a href={`https://dppgames.netlify.app/verify/classic-dice/?s=${DgII.server_seed}&c=${DgII.client_seed}&n=${DgII.game_nonce}`} target="_blank"> 
                         <button  class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal verify-btn">
                             <div class="button-inner">Verify</div>
                         </button>
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
         {:else}
@@ -482,11 +465,11 @@ $:{
 .jGQOsZ > div:last-of-type {
     margin-bottom: 3.375rem;
 }
-.jGQOsZ .verify-wrap .verify-btn {
+/* .jGQOsZ .verify-wrap .verify-btn {
     width: 70%;
     height: 3.5rem;
     margin: 1.25rem auto 0px;
-}
+} */
 
 
 .gzyxPX {

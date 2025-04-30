@@ -1,7 +1,7 @@
 <script>
-    import { dicegameplays, handleliveHistory} from "../store/index"
+    import { handleliveHistory } from "../store/index"
     import HistoryDetails from "./historyDetails.svelte";
-    import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
+    import { newScreen } from "$lib/store/screen";
 
     let newItem;
      $: {
@@ -33,7 +33,7 @@
         <HistoryDetails on:close={handleDiceHistoryDetail} DgII={DgII}/> 
     {/if}
     
-    <div style={`${$is_open__chat && $is_open__Appp && $screen > 1579 || $is_open__chat && !$is_open__Appp && $screen > 1219 || !$is_open__chat && !$is_open__Appp && $screen > 1049 || !$is_open__chat && $is_open__Appp && $screen > 1214 ? "" : "display:none"}`}>
+    <div style={`${$newScreen > 1214 ? "" : "display:none"}`}>
         <div  class="tabs-view" style="transform: none;">
             <div class="sc-eZhRLC iycaRo">
                 <table class="sc-gWXbKe iUeetX table is-hover">
@@ -49,7 +49,7 @@
                     </thead>
                     <tbody>
                         {#each newItem.slice(0, 15) as dice  }
-                        <tr  on:click={()=>handleDiceHistoryDetail(dice)}>
+                        <tr on:click={()=>handleDiceHistoryDetail(dice)}>
                             <td>
                                 <button class="hash ellipsis">{dice.game_id}</button>
                             </td>
@@ -100,7 +100,7 @@
     </div>
 
     
-    <div style={`${$is_open__chat && $is_open__Appp && $screen < 1580 || $is_open__chat && !$is_open__Appp && $screen < 1220 || !$is_open__chat && !$is_open__Appp && $screen < 1050 || !$is_open__chat && $is_open__Appp && $screen < 1215  ? "" : "display:none"}`}>
+    <div style={`${$newScreen < 1215  ? "" : "display:none"}`}>
         <div class="tabs-view" style="transform: none;">
             <div class="sc-eZhRLC iycaRo">
                 <table class="sc-gWXbKe iUeetX table is-hover">
@@ -344,7 +344,7 @@
         width: 7.2em;
     }
     .iycaRo .is-lose .amount {
-        color: #fb3d3d;
+        color: rgb(237, 99, 0);
     }
     .iycaRo .is-win .amount {
         color: rgb(67, 179, 9);
@@ -454,7 +454,7 @@
         display: inline-block;
     }
     .iycaRo .is-lose .amount {
-        color: #fb3d3d;
+        color: rgb(237, 99, 0);
     }
     .erPQzq .suffix {
         opacity: 0.5;

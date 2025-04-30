@@ -1,12 +1,11 @@
 <script>
-// import Icon from 'svelte-icons-pack/Icon.svelte';
-// import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp"
-// import RiSystemArrowLeftSLine from "svelte-icons-pack/ri/RiSystemArrowLeftSLine";
-// import RiSystemArrowDropRightLine from "svelte-icons-pack/ri/RiSystemArrowDropRightLine";
 import { browser } from '$app/environment';
-import { createEventDispatcher } from 'svelte';
-// import About from './helps/about.svelte';
-// import Fairness from './helps/fairness.svelte';
+import {
+    createEventDispatcher
+} from 'svelte';
+import About from './helps/about.svelte';
+    import Fairness from './helps/fairness.svelte';
+
 const dispatch = createEventDispatcher()
 
 const handleCloseHelp = (() => {
@@ -45,14 +44,14 @@ $:{
     <div class="dialog "style={`${is_mobile ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
         {#if !defaultSate}
         <button on:click={()=> defaultSate = true} class="dialog-back" style="opacity: 1; transform: none;">
-            <!-- <Icon src={RiSystemArrowLeftSLine}  size="23"  color="rgba(153, 164, 176, 0.6)" /> -->
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Arrow"></use></svg>
         </button>
         {/if}
         <div class={`dialog-head ${defaultSate ? "has-close" : "has-back"} `}>
             <div class="dialog-title">{defaultSate ? "Help" :  is_about ? "What Game Is This?" : "Fairness"}</div>
         </div>
         <button on:click={()=> handleCloseHelp()}  class="sc-ieecCq fLASqZ close-icon dialog-close">
-            <!-- <Icon src={IoCloseSharp}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="close" /> -->
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Close"></use></svg>
         </button>
 
         {#if defaultSate}
@@ -61,23 +60,23 @@ $:{
                 <div class="help-list">
                     <button on:click={()=> HandleAboutGame(1)} class="usiu">
                         <span>What Game Is This?</span>
-                        <!-- <Icon src={RiSystemArrowDropRightLine}  size="23"  color="rgba(153, 164, 176, 0.6)"  /> -->
+                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Arrow"></use></svg>
                     </button>
                     <button  on:click={()=> HandleAboutGame(2)} class="usiu">
                         <span>Fairness</span>
-                        <!-- <Icon src={RiSystemArrowDropRightLine}  size="23"  color="rgba(153, 164, 176, 0.6)"  /> -->
+                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Arrow"></use></svg>
                     </button>
                 </div>
             </div>
         </div>
         {/if}
 
-        <!-- {#if is_about && !defaultSate}
+        {#if is_about && !defaultSate}
         <About />
         {/if}
         {#if fairness && !defaultSate}
             <Fairness />
-        {/if} -->
+        {/if}
 
     </div>
 </div>

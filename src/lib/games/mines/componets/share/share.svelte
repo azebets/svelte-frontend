@@ -1,10 +1,5 @@
 <script>
-import Icon from 'svelte-icons-pack/Icon.svelte';
-import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp"
-import {
-    createEventDispatcher
-} from 'svelte';
-
+import { createEventDispatcher } from 'svelte';
 let isWin = true
 const dispatch = createEventDispatcher()
 
@@ -19,7 +14,7 @@ const handleCloseHelp = (() => {
         <div class="sc-dkPtRN jScFby scroll-view sc-bXRjm gOCfzr">
             <button class="sc-ieecCq fLASqZ close-icon ">
                 <button on:click={()=> handleCloseHelp()}  class="sc-ieecCq fLASqZ close-icon dialog-close">
-                    <Icon src={IoCloseSharp}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="arror" />
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Close"></use></svg>
                 </button>
             </button>
             <div class="sc-cnHmbd kGXfTx" style="cursor: auto;">
@@ -374,7 +369,7 @@ const handleCloseHelp = (() => {
 }
 .cyBkzk.right-lose .animation-card {
     font-size: 1rem;
-    color: #fb3d3d;
+    color: rgb(237, 99, 0);
 }
 .cyBkzk .animation-card {
     width: 100%;

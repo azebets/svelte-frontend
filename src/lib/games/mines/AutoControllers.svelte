@@ -1,12 +1,12 @@
 <script>
-// import Icon from 'svelte-icons-pack/Icon.svelte';
-// import RiSystemArrowUpSLine from "svelte-icons-pack/ri/RiSystemArrowUpSLine";
-// import RiSystemArrowDownSLine from "svelte-icons-pack/ri/RiSystemArrowDownSLine";
-import { default_Wallet } from '$lib/store/coins';
-import { user } from "$lib/store/profile"
-import {  handleAuthToken} from "$lib/store/routes";
+import Icon from 'svelte-icons-pack/Icon.svelte';
+import RiSystemArrowUpSLine from "svelte-icons-pack/ri/RiSystemArrowUpSLine";
+import RiSystemArrowDownSLine from "svelte-icons-pack/ri/RiSystemArrowDownSLine";
+import { default_Wallet } from '../../store/coins';
+import { profileStore,handleisLoggin } from "$lib/store/profile"
+import { handleAuthToken } from "$lib/store/routes"
 import { payout, isbetLoadingBtn } from "./store";
-import { handlediceAutoInput, onWin, HandleDicePoint, soundHandler ,dice_history, HandleHas_won } from "../ClassicDice/store/index"
+import { error_msg, handlediceAutoInput, onWin, HandleDicePoint, soundHandler ,dice_history, HandleHas_won } from "../ClassicDice/store/index"
 // import {useLiveStats} from "$lib/hook/livestats"
 // const {recordGame} = useLiveStats(liveStats, "MINES_LIVE_STATS")
 
@@ -565,14 +565,31 @@ const handleRollSubmit = (async()=>{
 .input-control {
     background-color: rgba(49, 52, 60, 0.4);
 }
-
+.gcQjQT .input-control {
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border: 1px solid rgb(45, 48, 53);
+    background-color: rgba(45, 48, 53, 0.5);
+    opacity: 1;
+    height: 2.75rem;
+    border-radius: 1.5rem;
+    padding: 0px 1.375rem;
+}
 .fCSgTW .input-control input {
     font-weight: bold;
 }
 .cYiOHZ .input-control input {
     color: rgb(245, 246, 247);
 }
-
+.gOLODp .coin-icon {
+    order: -1;
+    margin-right: 0.3125rem;
+    margin-left: -0.625rem;
+    width: 1.25rem;
+    height: 1.25rem;
+}
 .cYiOHZ .input-control .button-group {
     margin-right: -1.125rem;
 }
@@ -580,7 +597,37 @@ const handleRollSubmit = (async()=>{
     width: 8.375rem;
     position: relative;
 }
+.bswIvI {
+    display: flex;
+}
+.bswIvI > button:first-child {
+    margin-left: 0px;
+    padding-left: 0.125rem;
+    border-top-left-radius: 1.125rem;
+    border-bottom-left-radius: 1.125rem;
+}
 
+.bswIvI > button {
+    height: 2.25rem;
+    width: 2.75rem;
+    padding: 0px;
+    color: rgb(153, 164, 176);
+    background: rgb(49, 52, 60);
+    margin-left: 1px;
+}
+.bswIvI > button:last-child {
+    padding-right: 0.125rem;
+    border-top-right-radius: 1.125rem;
+    border-bottom-right-radius: 1.125rem;
+}
+.bswIvI > button {
+    height: 2.25rem;
+    width: 2.75rem;
+    padding: 0px;
+    color: rgb(153, 164, 176);
+    background: rgb(49, 52, 60);
+    margin-left: 1px;
+}
 .cMPLfC {
     display: flex;
     -webkit-box-align: center;
@@ -607,9 +654,46 @@ const handleRollSubmit = (async()=>{
 .input-control {
     background-color: rgba(49, 52, 60, 0.4);
 }
-
+.hzTJOu .input-control input {
+    flex: 1 1 0%;
+    width: 100%;
+    height: 100%;
+    min-width: 1rem;
+    padding: 0px;
+    border: none;
+    background-color: transparent;
+    color: rgb(245, 246, 247);
+    font-weight: bold;
+}
 .cYiOHZ .input-control .button-group {
     margin-right: -1.125rem;
+}
+.bswIvI > button:first-child {
+    margin-left: 0px;
+    padding-left: 0.125rem;
+    border-top-left-radius: 1.125rem;
+    border-bottom-left-radius: 1.125rem;
+}
+.bswIvI > button {
+    height: 2.25rem;
+    width: 2.75rem;
+    padding: 0px;
+    color: rgb(153, 164, 176);
+    background: rgb(49, 52, 60);
+    margin-left: 1px;
+}
+.bswIvI > button:last-child {
+    padding-right: 0.125rem;
+    border-top-right-radius: 1.125rem;
+    border-bottom-right-radius: 1.125rem;
+}
+.bswIvI > button {
+    height: 2.25rem;
+    width: 2.75rem;
+    padding: 0px;
+    color: rgb(153, 164, 176);
+    background: rgb(49, 52, 60);
+    margin-left: 1px;
 }
 .hzTJOu {
     margin-top: 1rem;
@@ -617,7 +701,9 @@ const handleRollSubmit = (async()=>{
 .input-control {
     border-color: transparent;
 }
-
+ .hzTJOu .input-control input[readonly] {
+    opacity: 0.5;
+}
 
 .eIHoct {
     order: -1;
@@ -635,7 +721,15 @@ const handleRollSubmit = (async()=>{
     -webkit-box-pack: center;
     justify-content: center;
 }
-
+.eIHoct .dot-wrap {
+    position: absolute;
+    width: 1rem;
+    height: 1.75rem;
+    border-radius: 0.46875rem;
+    background: rgb(67, 179, 9);
+    left: 0.875rem;
+    top: 0.25rem;
+}
 .eIHoct .reset {
     font-weight: bold;
     color: rgb(255, 255, 255);
@@ -654,8 +748,28 @@ const handleRollSubmit = (async()=>{
     margin-right: -0.375rem;
     color: rgb(67, 179, 9);
 }
+.hzTJOu .input-control {
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border: 1px solid rgb(45, 48, 53);
+    background-color: rgba(45, 48, 53, 0.5);
+    opacity: 1;
+    height: 2.75rem;
+    border-radius: 1.5rem;
+    padding: 0px 1.375rem;
+}
 
-
+.eIHoct .dot-wrap {
+    position: absolute;
+    width: 1rem;
+    height: 1.75rem;
+    border-radius: 0.46875rem;
+    background: rgb(67, 179, 9);
+    left: 0.875rem;
+    top: 0.25rem;
+}
 .eIHoct .reset {
     font-weight: bold;
     color: rgb(255, 255, 255);
@@ -724,7 +838,25 @@ const handleRollSubmit = (async()=>{
     -webkit-box-pack: center;
     justify-content: center;
 }
-
+.kvRMBr .dot-wrap {
+    position: absolute;
+    width: 1rem;
+    height: 1.75rem;
+    border-radius: 0.46875rem;
+    background: rgb(67, 179, 9);
+    left: 0.875rem;
+    top: 0.25rem;
+}
+.kvRMBr .dot-wrap .dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: rgb(255, 255, 255);
+    position: absolute;
+    left: 0px;
+    transition: top 0.1s ease-in-out 0s;
+    top: 0.875rem;
+}
 .kvRMBr .reset {
     color: rgb(153, 164, 176);
 }

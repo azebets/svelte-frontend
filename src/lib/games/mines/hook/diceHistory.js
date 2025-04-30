@@ -1,16 +1,18 @@
 import { mine_history } from "../store/index"
-import { ServerURl } from "$lib/backendUrl"
+import { serverUrl } from "$lib/backendUrl"
 import { browser } from '$app/environment';
+import axios from "axios";
 
 export const MinesHistory = () => {
     const user = browser && JSON.parse(localStorage.getItem('user'))
+    const _user = browser && document.cookie.match(/secret=([^;]+)/)?.[1];
     const historyMines = async (data) => {
       const response = await fetch(
-        `${ServerURl()}/api/user/mine-game/mine-history`,{
+        `${serverUrl()}/api/user/mine-game/mine-history`,{
           method: "GET",
           headers: {
             "Content-type": "application/json",
-            'Authorization': `Bearer ${user}`
+            'Authorization': `Bearer ${_user}`
           },
         }
       );
@@ -27,7 +29,7 @@ export const MinesHistory = () => {
 
 export const handleLostBet = (async (data, auth) => {
   let response = ""
-  await axios.post(`${ServerURl()}/api/user/mine-game/lost-bet`, {
+  await axios.post(`${serverUrl()}/api/user/mine-game/lost-bet`, {
           data
       }, {
           headers: {

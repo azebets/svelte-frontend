@@ -2,20 +2,20 @@
 import { mine_history, HandleSelectedMine, minesStore,
     HandleNextTime, HandlemineGems,  HandleMineCount,
     HandleGame_id, Cashout, HandleHas_won,
-    betDetails,  HandleIsAlive, HandleWinning} from "./store/index"
+    betDetails,  HandleIsAlive, HandleWinning} from "$lib/games/mines/store/index"
 import { soundHandler} from "$lib/games/mines/store/index";
-import { MinesHistory } from "./hook/diceHistory";
+import { MinesHistory } from "$lib/games/mines/hook/diceHistory";
 const { historyMines } = MinesHistory()
-import { handleMinesSet } from "./hook/index"
+import { handleMinesSet } from "$lib/games/mines/hook/index"
 import { onMount } from "svelte";
 import { handleAuthToken } from "$lib/store/routes";
 import axios from "axios";
-import { handleisLoggin } from "../../store/profile";
-import HistoryDetails from "./componets/historyDetails.svelte";
-import win from "./audio/scale-d6-106129.mp3";
-import wion from "./audio/box-crash-106687.mp3";
-import cr from "./audio/click.wav";
-import { serverUrl } from "$lib/backendUrl";
+import { user } from "$lib/store/profile";
+import HistoryDetails from "$lib/games/mines/componets/historyDetails.svelte";
+import win from "$lib/games/mines/audio/scale-d6-106129.mp3";
+import wion from "$lib/games/mines/audio/box-crash-106687.mp3";
+import cr from "$lib/games/mines/audio/click.wav";
+import { serverUrl } from "$lib/backendUrl"
 const URL = serverUrl()
 let skown = handleMinesSet()
 
@@ -56,34 +56,34 @@ const handleFubbf = (() => {
 
 const handleLostBet = (async (data) => {
     await axios.post(`${URL}/api/user/mine-game/lost-bet`, {
-        data
-    }, {
-        headers: {
-            Authorization: `Bearer ${$handleAuthToken}`
-        }
-    })
-    .then((res) => {
-        mine_history.set([...$mine_history, res.data[0]])
-    })
-    .catch((error) => {
-        console.log(error)
-    })
+            data
+        }, {
+            headers: {
+                Authorization: `Bearer ${$handleAuthToken}`
+            }
+        })
+        .then((res) => {
+            mine_history.set([...$mine_history, res.data[0]])
+        })
+        .catch((error) => {
+            console.log(error)
+        })
 })
 
 const handleUpdateWins = (async (data) => {
     await axios.post(`${URL}/api/user/mine-game/update-wins`, {
-        data
-    }, {
-        headers: {
-            Authorization: `Bearer ${$handleAuthToken}`
-        }
-    })
-    .then((res) => {
-        (res.data)
-    })
-    .catch((error) => {
-        console.log(error.response)
-    })
+            data
+        }, {
+            headers: {
+                Authorization: `Bearer ${$handleAuthToken}`
+            }
+        })
+        .then((res) => {
+            (res.data)
+        })
+        .catch((error) => {
+            console.log(error.response)
+        })
 })
 
 let multiplayerEl = 1.03
@@ -2737,7 +2737,7 @@ onMount(async () => {
 <div class="game-view">
     <div class="sc-hoHwyw fIoiVG game-recent ">
         <div class="recent-list-wrap">
-            {#if $handleisLoggin}
+            {#if $user}
             {#if $mine_history.length !== 0}
             <div class="recent-list" style="width: 100%; transform: translate(0%, 0px);">
                 {#each $mine_history.slice(-6) as  dice }
@@ -2967,7 +2967,7 @@ onMount(async () => {
     width: 100%;
     height: 100%;
     color: rgba(153, 164, 176, 0.6);
-    /* background-color: rgba(122, 128, 140, 0.15); */
+    background-color: rgba(122, 128, 140, 0.15);
     -webkit-box-align: center;
     align-items: center;
     -webkit-box-pack: center;
@@ -3024,7 +3024,10 @@ onMount(async () => {
     position: relative;
 }
 
-
+.fPOXr {
+    flex: 1 1 0%;
+    background: url(https://static.nanogames.io/assets/bg.136f0468.png) center center / cover no-repeat;
+}
 
 .hnBJiv {
     height: 90%;

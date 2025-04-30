@@ -1,6 +1,6 @@
 <script>
-import { profileStore } from "../../../store/profile"
-import { dicegameplays, mine_history } from "../../mines/store/index"
+import { user } from "$lib/store/profile"
+import { mine_history } from "$lib/games/mines/store/index"
 import HistoryDetails from "./historyDetails.svelte";
 import { browser } from '$app/environment';
 
@@ -64,7 +64,7 @@ $:{
             </thead>
             <tbody>
                 {#each newItem.slice(0, 15) as dice (dice._id) }
-                {#if $profileStore.user_id === dice.user_id}
+                {#if $user.user_id === dice.user_id}
                 <tr on:click={()=> handleDiceHistoryDetail(dice)}>
                     <td>
                         <button  class="hash ellipsis">{dice.game_id}</button>
@@ -185,7 +185,7 @@ $:{
 }
 
 .iycaRo .is-lose .amount {
-    color: #fb3d3d;
+    color: rgb(237, 99, 0);
 }
 
 .erPQzq.has-sign .amount-str {
@@ -193,7 +193,7 @@ $:{
 }
 
 .iycaRo .is-lose .amount {
-    color: #fb3d3d;
+    color: rgb(237, 99, 0);
 }
 .iycaRo .is-win .amount {
     color: rgb(67, 179, 9);
